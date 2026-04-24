@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prática 09 — Transistor — Circuito Inversor | Elétrons Mania</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0e1117; --surface: #161b22; --surface2: #1c2128;
+    --border: rgba(255,255,255,0.08); --green: #5cb85c; --orange: #e05c2a;
+    --blue: #7b88ff; --muted: rgba(255,255,255,0.45); --text: #e8eaf0;
+    --radius: 14px;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 1rem; line-height: 1.7; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  /* ─── NAV ─── */
+  .pnav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+    background: rgba(14,17,23,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .pnav-back { display: flex; align-items: center; gap: 10px;
+    font-family: 'Space Mono', monospace; font-size: 0.75rem;
+    color: var(--muted); transition: color 0.2s; }
+  .pnav-back:hover { color: var(--green); }
+  .pnav-back svg { width: 16px; height: 16px; }
+  .pnav-brand { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700;
+    color: var(--text); opacity: 0.6; letter-spacing: -0.02em; }
+  .pnav-next { display: flex; align-items: center; gap: 8px;
+    font-family: 'Space Mono', monospace; font-size: 0.75rem;
+    color: var(--muted); transition: color 0.2s; }
+  .pnav-next:hover { color: var(--green); }
+  .pnav-next.disabled { opacity: 0.25; pointer-events: none; }
+
+  /* ─── HERO ─── */
+  .p-hero {
+    padding: 80px 0 60px;
+    background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .p-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(92,184,92,0.07) 0%, transparent 60%);
+  }
+  .container { max-width: 860px; margin: 0 auto; padding: 0 32px; position: relative; }
+  .p-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 52px; height: 52px; border-radius: 14px;
+    font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .p-num.g { background: rgba(92,184,92,0.12); color: var(--green); border: 1px solid rgba(92,184,92,0.3); }
+  .p-num.o { background: rgba(224,92,42,0.12); color: var(--orange); border: 1px solid rgba(224,92,42,0.3); }
+  .p-num.b { background: rgba(123,136,255,0.12); color: var(--blue); border: 1px solid rgba(123,136,255,0.3); }
+  .p-hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 12px; }
+  .p-hero h1 em { color: var(--green); font-style: normal; }
+  .p-subtitle { font-size: 1.1rem; color: var(--muted); margin-bottom: 24px; }
+  .p-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .p-tag { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem;
+    font-family: 'Space Mono', monospace;
+    background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
+
+  /* ─── CONTENT SECTIONS ─── */
+  .content { padding: 64px 0; }
+  .content-block { margin-bottom: 56px; }
+  .section-label-sm {
+    font-family: 'Space Mono', monospace; font-size: 0.68rem;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .content-block h2 {
+    font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800;
+    margin-bottom: 20px; letter-spacing: -0.02em;
+  }
+  .content-block p { color: rgba(232,234,240,0.85); margin-bottom: 14px; font-size: 0.97rem; }
+  .content-block p:last-child { margin-bottom: 0; }
+
+  /* ─── CALLOUT BOXES ─── */
+  .callout {
+    border-radius: var(--radius); padding: 18px 22px;
+    margin: 20px 0; display: flex; gap: 14px; align-items: flex-start;
+  }
+  .callout.warn { background: rgba(224,92,42,0.08); border: 1px solid rgba(224,92,42,0.2); }
+  .callout.info { background: rgba(92,184,92,0.07); border: 1px solid rgba(92,184,92,0.2); }
+  .callout.tip  { background: rgba(123,136,255,0.08); border: 1px solid rgba(123,136,255,0.2); }
+  .callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+  .callout p { margin: 0; font-size: 0.92rem; color: rgba(232,234,240,0.9); }
+
+  /* ─── MATERIALS GRID ─── */
+  .materials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 10px; }
+  .mat-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.88rem;
+  }
+  .mat-item::before { content: '○'; color: var(--green); font-size: 0.55rem; flex-shrink: 0; }
+
+  /* ─── STEPS ─── */
+  .steps-list { display: flex; flex-direction: column; gap: 32px; }
+  .step-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .step-header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 18px 24px; border-bottom: 1px solid var(--border);
+  }
+  .step-n {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(92,184,92,0.12); border: 1px solid rgba(92,184,92,0.25);
+    color: var(--green); font-family: 'Space Mono', monospace;
+    font-size: 0.8rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; }
+  .step-body {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  }
+  @media (max-width: 640px) { .step-body { grid-template-columns: 1fr; } }
+  .step-img-wrap {
+    background: #f5f5f5; display: flex; align-items: center; justify-content: center;
+    min-height: 220px; cursor: zoom-in; overflow: hidden;
+    border-right: 1px solid var(--border);
+  }
+  .step-img-wrap img { width: 100%; height: 100%; object-fit: contain; }
+  .step-text { padding: 22px 24px; font-size: 0.9rem; color: rgba(232,234,240,0.85);
+    display: flex; flex-direction: column; justify-content: center; }
+  .step-text p { margin-bottom: 10px; }
+  .step-text p:last-child { margin-bottom: 0; }
+  .step-text strong { color: var(--text); }
+  /* single-column steps (image on top, text below) */
+  .step-body.stacked { grid-template-columns: 1fr; }
+  .step-body.stacked .step-img-wrap { border-right: none; border-bottom: 1px solid var(--border); }
+
+  /* ─── RESULT BOX ─── */
+  .result-box {
+    background: linear-gradient(135deg, rgba(92,184,92,0.07) 0%, rgba(14,17,23,0) 100%);
+    border: 1px solid rgba(92,184,92,0.2); border-radius: var(--radius);
+    padding: 28px 32px; margin-top: 48px;
+  }
+  .result-box h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800;
+    color: var(--green); margin-bottom: 12px; }
+  .result-box p { font-size: 0.95rem; color: rgba(232,234,240,0.85); margin-bottom: 10px; }
+  .result-box .troubleshoot { margin-top: 18px; }
+  .result-box .troubleshoot h4 { font-size: 0.78rem; font-family: 'Space Mono', monospace;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+  .result-box .troubleshoot li { font-size: 0.88rem; color: var(--muted); margin-bottom: 6px;
+    padding-left: 16px; position: relative; }
+  .result-box .troubleshoot li::before { content: '→'; position: absolute; left: 0; }
+
+  /* ─── BOTTOM NAV ─── */
+  .bottom-nav {
+    border-top: 1px solid var(--border); padding: 40px 0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .bn-link {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 20px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--surface);
+    transition: border-color 0.2s;
+    min-width: 200px;
+  }
+  .bn-link:hover { border-color: rgba(92,184,92,0.3); }
+  .bn-link.disabled { opacity: 0.25; pointer-events: none; }
+  .bn-link.right { text-align: right; flex-direction: row-reverse; }
+  .bn-arrow { font-size: 1.4rem; color: var(--green); }
+  .bn-text { }
+  .bn-text small { display: block; font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; }
+  .bn-text span { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; }
+
+  /* ─── LIGHTBOX ─── */
+  .lightbox { display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.94); z-index: 2000;
+    align-items: center; justify-content: center; }
+  .lightbox.open { display: flex; }
+  .lb-img { max-width: 86vw; max-height: 86vh; border-radius: 10px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.7); object-fit: contain; background: #fff; }
+  .lb-close, .lb-prev, .lb-next { position: absolute;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: white; cursor: pointer; border-radius: 8px; transition: background 0.2s; }
+  .lb-close:hover, .lb-prev:hover, .lb-next:hover { background: rgba(255,255,255,0.22); }
+  .lb-close { top: 20px; right: 24px; font-size: 1.2rem; padding: 7px 14px; }
+  .lb-prev  { left: 16px; top: 50%; transform: translateY(-50%); font-size: 2rem; padding: 10px 18px; }
+  .lb-next  { right: 16px; top: 50%; transform: translateY(-50%); font-size: 2rem; padding: 10px 18px; }
+  .lb-counter { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+    font-family: 'Space Mono', monospace; font-size: 0.72rem;
+    color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.4);
+    padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
+
+  @media (max-width: 640px) {
+    .pnav { padding: 12px 16px; }
+    .container { padding: 0 16px; }
+    .p-hero { padding: 50px 0 40px; }
+    .bn-link { min-width: 140px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="pnav">
+  <a class="pnav-back" href="eletrons-mania.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Todas as práticas
+  </a>
+  <span class="pnav-brand">Elétrons Mania</span>
+  <a class="pnav-next" href="pratica-10.html">Chip 555 — LED piscante →</a>
+</nav>
+
+<!-- HERO -->
+<div class="p-hero">
+  <div class="container">
+    <div class="p-num b">09</div>
+    <h1>Transistor — Circuito Inversor</h1>
+    <p class="p-subtitle">O componente que mudou o mundo</p>
+    <div class="p-tags"><span class="p-tag">Transistor</span> <span class="p-tag">Inversor</span> <span class="p-tag">Amplificação</span> <span class="p-tag">Avançado</span></div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="container">
+
+    <!-- COMPONENT INTRO -->
+    <div class="content-block">
+      <p class="section-label-sm">// sobre o componente</p>
+      <h2>O que é o Transistor?</h2>
+      <div style="display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start">
+        <div>
+          <p>O transistor foi inventado há cerca de 65 anos nos laboratórios da Bell (sim, o mesmo Graham Bell do telefone). Esse pequeno componente <strong>mudou completamente o mundo moderno</strong> — sem ele, computadores como os conhecemos hoje não existiriam.</p><p></p><p>Funciona como uma <strong>torneira controlada por outra torneira</strong>: uma pequena energia na "entrada de controle" (base) controla uma grande energia na "saída" (coletor). Diferente do potenciômetro que você controla mecanicamente girando uma haste, o transistor é controlado <strong>eletronicamente</strong> — pela própria energia.</p><p></p><p>Tem <strong>três pernas</strong>:</p><p><br>• <strong>Base:</strong> entrada de controle (pequeno sinal)</p><p><br>• <strong>Coletor:</strong> onde entra a energia que será controlada</p><p><br>• <strong>Emissor:</strong> saída do transistor</p><p></p><p><strong>Atenção:</strong> A parte RETA do transistor deve ficar virada para dentro da placa.</p>
+          <div class="callout warn"><span class="callout-icon">⚠️</span><p>A parte RETA do transistor DEVE ficar virada para dentro da placa. Se ligado ao contrário, o circuito não funciona.</p></div>
+<div class="callout info"><span class="callout-icon">💡</span><p><strong>O que está acontecendo:</strong> Quando o botão não está pressionado, o LED de cima acende (transistor deixa passar). Ao apertar, o LED de baixo acende e o transistor "inverte" o sinal, apagando o LED de cima. Magia da eletrônica!</p></div>
+        </div>
+        <div><img src="htmllivro/guia36-web-resources/image/foto1.jpg" alt="O que é o Transistor?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
+      </div>
+    </div>
+
+    <!-- MATERIALS -->
+    <div class="content-block">
+      <p class="section-label-sm">// materiais necessários</p>
+      <h2>O que você vai precisar</h2>
+      <div class="materials-grid"><div class="mat-item">Placa de ensaios</div>
+<div class="mat-item">2 LEDs (qualquer cor)</div>
+<div class="mat-item">2 Resistores pequenos</div>
+<div class="mat-item">Transistor NPN</div>
+<div class="mat-item">Botão táctil</div>
+<div class="mat-item">Suporte de pilhas</div></div>
+    </div>
+
+    <!-- STEPS -->
+    <div class="content-block">
+      <p class="section-label-sm">// montagem passo a passo</p>
+      <h2>Mãos na massa</h2>
+      <div class="steps-list">
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-n">01</div>
+        <div class="step-title">O circuito que vamos montar</div>
+      </div>
+      <div class="step-body">
+        <div class="step-img-wrap"><img src="htmllivro/guia36-web-resources/image/schema3.png" alt="O circuito que vamos montar" loading="lazy" onclick="openImg('htmllivro/guia36-web-resources/image/schema3.png', ["htmllivro/guia36-web-resources/image/schema3.png","htmllivro/guia36-web-resources/image/13.png","htmllivro/guia36-web-resources/image/23.png","htmllivro/guia36-web-resources/image/33.png","htmllivro/guia36-web-resources/image/42.png","htmllivro/guia36-web-resources/image/51.png","htmllivro/guia36-web-resources/image/61.png","htmllivro/guia36-web-resources/image/7.png"])" style="cursor:zoom-in"></div>
+        <div class="step-text"><p>O circuito inversor tem duas partes: (cima) um circuito de botão + LED, e (baixo) o transistor inversor com segundo LED. Quando o LED de baixo acende (botão pressionado), o transistor desliga o LED de cima. E vice-versa.</p></div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-n">02</div>
+        <div class="step-title">Passo 1 — Posicione o botão</div>
+      </div>
+      <div class="step-body">
+        <div class="step-img-wrap"><img src="htmllivro/guia36-web-resources/image/13.png" alt="Passo 1 — Posicione o botão" loading="lazy" onclick="openImg('htmllivro/guia36-web-resources/image/13.png', ["htmllivro/guia36-web-resources/image/schema3.png","htmllivro/guia36-web-resources/image/13.png","htmllivro/guia36-web-resources/image/23.png","htmllivro/guia36-web-resources/image/33.png","htmllivro/guia36-web-resources/image/42.png","htmllivro/guia36-web-resources/image/51.png","htmllivro/guia36-web-resources/image/61.png","htmllivro/guia36-web-resources/image/7.png"])" style="cursor:zoom-in"></div>
+        <div class="step-text"><p>Conecte o botão no lado esquerdo da placa, atravessando o canal central. Deixe espaço para os outros componentes.</p></div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-n">03</div>
+        <div class="step-title">Passo 2 — Adicione o primeiro resistor</div>
+      </div>
+      <div class="step-body">
+        <div class="step-img-wrap"><img src="htmllivro/guia36-web-resources/image/23.png" alt="Passo 2 — Adicione o primeiro resistor" loading="lazy" onclick="openImg('htmllivro/guia36-web-resources/image/23.png', ["htmllivro/guia36-web-resources/image/schema3.png","htmllivro/guia36-web-resources/image/13.png","htmllivro/guia36-web-resources/image/23.png","htmllivro/guia36-web-resources/image/33.png","htmllivro/guia36-web-resources/image/42.png","htmllivro/guia36-web-resources/image/51.png","htmllivro/guia36-web-resources/image/61.png","htmllivro/guia36-web-resources/image/7.png"])" style="cursor:zoom-in"></div>
+        <div class="step-text"><p>Ligue um resistor pequeno na <strong>perna direita do botão</strong>, na parte de baixo da placa.</p></div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-n">04</div>
+        <div class="step-title">Passo 3 — Conecte o primeiro LED</div>
+      </div>
+      <div class="step-body">
+        <div class="step-img-wrap"><img src="htmllivro/guia36-web-resources/image/33.png" alt="Passo 3 — Conecte o primeiro LED" loading="lazy" onclick="openImg('htmllivro/guia36-web-resources/image/33.png', ["htmllivro/guia36-web-resources/image/schema3.png","htmllivro/guia36-web-resources/image/13.png","htmllivro/guia36-web-resources/image/23.png","htmllivro/guia36-web-resources/image/33.png","htmllivro/guia36-web-resources/image/42.png","htmllivro/guia36-web-resources/image/51.png","htmllivro/guia36-web-resources/image/61.png","htmllivro/guia36-web-resources/image/7.png"])" style="cursor:zoom-in"></div>
+        <div class="step-text"><p>Perna <strong>maior</strong> do LED no resistor. Perna <strong>menor</strong> mais ou menos no meio da placa (parte de cima). Esse é o LED do circuito do botão.</p></div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-n">05</div>
+        <div class="step-title">Passo 4 — Posicione o transistor</div>
+      </div>
+      <div class="step-body">
+        <div class="step-img-wrap"><img src="htmllivro/guia36-web-resources/image/42.png" alt="Passo 4 — Posicione o transistor" loading="lazy" onclick="openImg('htmllivro/guia36-web-resources/image/42.png', ["htmllivro/guia36-web-resources/image/schema3.png","htmllivro/guia36-web-resources/image/13.png","htmllivro/guia36-web-resources/image/23.png","htmllivro/guia36-web-resources/image/33.png","htmllivro/guia36-web-resources/image/42.png","htmllivro/guia36-web-resources/image/51.png","htmllivro/guia36-web-resources/image/61.png","htmllivro/guia36-web-resources/image/7.png"])" style="cursor:zoom-in"></div>
+        <div class="step-text"><p><strong>CRÍTICO:</strong> A parte RETA do transistor deve ficar virada para DENTRO da placa. Coloque o transistor de forma que a perna do meio esteja na mesma coluna da perna menor do primeiro LED.</p></div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-n">06</div>
+        <div class="step-title">Passo 5 — Segundo resistor</div>
+      </div>
+      <div class="step-body">
+        <div class="step-img-wrap"><img src="htmllivro/guia36-web-resources/image/51.png" alt="Passo 5 — Segundo resistor" loading="lazy" onclick="openImg('htmllivro/guia36-web-resources/image/51.png', ["htmllivro/guia36-web-resources/image/schema3.png","htmllivro/guia36-web-resources/image/13.png","htmllivro/guia36-web-resources/image/23.png","htmllivro/guia36-web-resources/image/33.png","htmllivro/guia36-web-resources/image/42.png","htmllivro/guia36-web-resources/image/51.png","htmllivro/guia36-web-resources/image/61.png","htmllivro/guia36-web-resources/image/7.png"])" style="cursor:zoom-in"></div>
+        <div class="step-text"><p>Ligue um segundo resistor pequeno na <strong>perna esquerda do transistor</strong>. A outra perna do resistor conecte no <strong>primeiro pino do botão</strong>.</p></div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-n">07</div>
+        <div class="step-title">Passo 6 — Segundo LED</div>
+      </div>
+      <div class="step-body">
+        <div class="step-img-wrap"><img src="htmllivro/guia36-web-resources/image/61.png" alt="Passo 6 — Segundo LED" loading="lazy" onclick="openImg('htmllivro/guia36-web-resources/image/61.png', ["htmllivro/guia36-web-resources/image/schema3.png","htmllivro/guia36-web-resources/image/13.png","htmllivro/guia36-web-resources/image/23.png","htmllivro/guia36-web-resources/image/33.png","htmllivro/guia36-web-resources/image/42.png","htmllivro/guia36-web-resources/image/51.png","htmllivro/guia36-web-resources/image/61.png","htmllivro/guia36-web-resources/image/7.png"])" style="cursor:zoom-in"></div>
+        <div class="step-text"><p>Perna <strong>maior</strong> do segundo LED na coluna da perna esquerda do transistor. Perna <strong>menor</strong> na perna direita do transistor.</p></div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-n">08</div>
+        <div class="step-title">Passo 7 — Ligue as pilhas e teste</div>
+      </div>
+      <div class="step-body">
+        <div class="step-img-wrap"><img src="htmllivro/guia36-web-resources/image/7.png" alt="Passo 7 — Ligue as pilhas e teste" loading="lazy" onclick="openImg('htmllivro/guia36-web-resources/image/7.png', ["htmllivro/guia36-web-resources/image/schema3.png","htmllivro/guia36-web-resources/image/13.png","htmllivro/guia36-web-resources/image/23.png","htmllivro/guia36-web-resources/image/33.png","htmllivro/guia36-web-resources/image/42.png","htmllivro/guia36-web-resources/image/51.png","htmllivro/guia36-web-resources/image/61.png","htmllivro/guia36-web-resources/image/7.png"])" style="cursor:zoom-in"></div>
+        <div class="step-text"><p>Fio <strong>vermelho</strong> no resistor da parte de cima (ligado ao botão). Fio <strong>preto</strong> na coluna da perna direita do transistor. Um LED deve estar aceso antes mesmo de apertar o botão!</p></div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-box">
+      <h3>✓ Resultado esperado</h3>
+      <p>Sem apertar o botão: LED de cima aceso, LED de baixo apagado. Ao apertar: LED de baixo acende, LED de cima apaga. Isso é a lógica de inversão — fundamental em computadores e sistemas digitais.</p>
+      <div class="troubleshoot">
+        <h4>Se não funcionou:</h4>
+        <ul>
+          <li>Refaça as conexões conferindo cada imagem do passo a passo</li>
+          <li>Troque os componentes por outros do kit (podem ter vindo com defeito)</li>
+          <li>Verifique se as pilhas estão carregadas</li>
+          <li>Peça ajuda de um adulto se necessário</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav">
+      <a class="bn-link" href="pratica-08.html"><span class="bn-arrow">←</span><div class="bn-text"><small>anterior</small><span>Motor DC</span></div></a>
+      <a class="bn-link right" href="pratica-10.html"><span class="bn-arrow">→</span><div class="bn-text"><small>próxima</small><span>Chip 555 — LED piscante</span></div></a>
+    </div>
+
+  </div>
+</div>
+
+
+<div id="lightbox" class="lightbox">
+  <button class="lb-close" onclick="closeLb()">&#10005;</button>
+  <button class="lb-prev"  onclick="lbNav(-1)">&#8249;</button>
+  <img id="lb-img" class="lb-img" src="" alt="">
+  <button class="lb-next"  onclick="lbNav(1)">&#8250;</button>
+  <div id="lb-counter" class="lb-counter"></div>
+</div>
+
+
+<script>
+
+var _lbG=[], _lbI=0;
+function openImg(src, all) {
+  _lbG = all; _lbI = all.indexOf(src); if(_lbI<0)_lbI=0; _showLb();
+}
+function _showLb() {
+  document.getElementById('lb-img').src = _lbG[_lbI];
+  document.getElementById('lb-counter').textContent = (_lbI+1)+' / '+_lbG.length;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function lbNav(d) { _lbI=(_lbI+d+_lbG.length)%_lbG.length; _showLb(); }
+function closeLb() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLb();});
+document.addEventListener('keydown',function(e){
+  if(!document.getElementById('lightbox').classList.contains('open'))return;
+  if(e.key==='Escape')closeLb();
+  if(e.key==='ArrowRight')lbNav(1);
+  if(e.key==='ArrowLeft')lbNav(-1);
+});
+
+</script>
+
+</body>
+</html>

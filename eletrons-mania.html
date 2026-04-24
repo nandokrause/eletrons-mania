@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elétrons Mania — Descobrindo a Eletrônica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #5cb85c;
+    --blue: #3a3fa8;
+    --orange: #e05c2a;
+    --navy: #1e2158;
+    --bg: #0d0e1a;
+    --bg2: #12132a;
+    --surface: #1a1c38;
+    --surface2: #22254a;
+    --text: #e8eaf6;
+    --muted: #8890b8;
+    --accent: #f0f080;
+    --border: rgba(255,255,255,0.08);
+    --glow-green: 0 0 24px rgba(92,184,92,0.4);
+    --glow-orange: 0 0 24px rgba(224,92,42,0.4);
+    --glow-blue: 0 0 24px rgba(58,63,168,0.5);
+    --radius: 12px;
+    --r-lg: 20px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── CIRCUIT GRID BACKGROUND ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(58,63,168,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(58,63,168,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  h1,h2,h3,h4,h5 { font-family: 'Syne', sans-serif; line-height: 1.15; }
+  .mono { font-family: 'Space Mono', monospace; }
+
+  /* ─── LAYOUT ─── */
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 100px 0; position: relative; z-index: 1; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 0;
+    background: rgba(13,14,26,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem;
+    color: var(--text); text-decoration: none;
+  }
+  .nav-logo .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: var(--glow-green); animation: pulse 2s infinite; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--green); color: #0d0e1a;
+    border: none; border-radius: 8px; padding: 10px 22px;
+    font-weight: 700; font-size: 0.9rem; cursor: pointer;
+    text-decoration: none; transition: all 0.2s;
+    font-family: 'Syne', sans-serif;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: var(--glow-green); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding-top: 80px;
+    position: relative; z-index: 1;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(58,63,168,0.25) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 80% 80%, rgba(92,184,92,0.1) 0%, transparent 60%);
+  }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(92,184,92,0.12); border: 1px solid rgba(92,184,92,0.3);
+    border-radius: 100px; padding: 6px 14px;
+    font-size: 0.78rem; font-family: 'Space Mono', monospace;
+    color: var(--green); margin-bottom: 24px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-tag::before { content: '●'; animation: pulse 1.5s infinite; }
+  .hero h1 {
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 em { font-style: normal; color: var(--green); }
+  .hero h1 span { color: var(--orange); }
+  .hero-desc {
+    font-size: 1.1rem; color: var(--muted); max-width: 480px;
+    margin-bottom: 40px; line-height: 1.8;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+  .btn-primary {
+    background: var(--orange); color: white;
+    border: none; border-radius: 10px; padding: 14px 28px;
+    font-weight: 700; font-size: 1rem; cursor: pointer;
+    text-decoration: none; display: inline-block;
+    font-family: 'Syne', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--glow-orange); }
+  .btn-secondary {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border); border-radius: 10px; padding: 14px 28px;
+    font-weight: 600; font-size: 1rem; cursor: pointer;
+    text-decoration: none; display: inline-block;
+    font-family: 'Syne', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.05); }
+
+  /* Hero visual */
+  .hero-visual {
+    position: relative; display: flex; justify-content: center; align-items: center;
+    animation: fadeUp 0.7s 0.15s ease both;
+  }
+  .hero-board {
+    width: 100%; max-width: 480px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    position: relative;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  }
+  .board-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; color: var(--muted);
+    margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
+  }
+  .board-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .breadboard {
+    background: #f0f0e8;
+    border-radius: 10px;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    gap: 4px;
+  }
+  .hole {
+    width: 100%; aspect-ratio: 1;
+    border-radius: 50%;
+    background: #ccc;
+    border: 1px solid #aaa;
+  }
+  .hole.used { background: #888; border-color: #666; }
+  .hole.power { background: #e05c2a; border-color: #b84820; box-shadow: 0 0 6px rgba(224,92,42,0.8); }
+  .hole.gnd { background: #222; border-color: #000; }
+  .comp-row { display: flex; gap: 4px; margin-top: 4px; }
+
+  /* LED on board */
+  .led-comp {
+    position: absolute; top: 20px; right: 28px;
+    width: 16px; height: 28px;
+    background: linear-gradient(to bottom, #ff6b6b, #cc0000);
+    border-radius: 50% 50% 20% 20%;
+    animation: ledBlink 1.2s ease-in-out infinite;
+    box-shadow: 0 0 12px #ff4444, 0 0 24px rgba(255,68,68,0.4);
+  }
+  @keyframes ledBlink {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  /* Kit chips */
+  .chips-row {
+    display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;
+  }
+  .chip-badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px; padding: 4px 10px;
+    font-size: 0.7rem; font-family: 'Space Mono', monospace;
+    color: var(--muted);
+  }
+  .chip-badge.g { color: var(--green); border-color: rgba(92,184,92,0.3); }
+  .chip-badge.o { color: var(--orange); border-color: rgba(224,92,42,0.3); }
+  .chip-badge.b { color: #7b88ff; border-color: rgba(123,136,255,0.3); }
+
+  /* ─── CONCEPT SECTION ─── */
+  .concept-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .concept-card {
+    background: var(--surface);
+    padding: 48px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .concept-card:hover { background: var(--surface2); }
+  .concept-card:first-child { border-radius: var(--r-lg) 0 0 var(--r-lg); }
+  .concept-card:last-child { border-radius: 0 var(--r-lg) var(--r-lg) 0; }
+  .concept-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 4rem; font-weight: 700;
+    opacity: 0.07; position: absolute;
+    top: 16px; right: 20px;
+    line-height: 1;
+  }
+  .concept-icon {
+    width: 64px; height: 64px;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 1.8rem;
+  }
+  .concept-icon.g { background: rgba(92,184,92,0.12); border: 1px solid rgba(92,184,92,0.25); }
+  .concept-icon.o { background: rgba(224,92,42,0.12); border: 1px solid rgba(224,92,42,0.25); }
+  .concept-icon.b { background: rgba(58,63,168,0.2); border: 1px solid rgba(123,136,255,0.25); }
+  .concept-card h3 { font-size: 1.4rem; margin-bottom: 12px; }
+  .concept-card p { color: var(--muted); font-size: 0.95rem; }
+
+  /* ─── COMPONENTS SECTION ─── */
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 3px;
+    margin-bottom: 12px;
+  }
+  .section-title { font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 800; margin-bottom: 16px; }
+  .section-desc { color: var(--muted); max-width: 540px; font-size: 1.05rem; margin-bottom: 56px; }
+
+  .components-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .comp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 28px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .comp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .comp-card.led::before { background: var(--green); }
+  .comp-card.resistor::before { background: var(--orange); }
+  .comp-card.button::before { background: var(--blue); }
+  .comp-card.buzzer::before { background: var(--green); }
+  .comp-card.switch::before { background: var(--orange); }
+  .comp-card.pot::before { background: var(--blue); }
+  .comp-card.ldr::before { background: var(--green); }
+  .comp-card.cap::before { background: var(--orange); }
+  .comp-card.motor::before { background: var(--blue); }
+  .comp-card.transistor::before { background: var(--green); }
+  .comp-card.chip::before { background: var(--orange); }
+
+  .comp-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+  .comp-card:hover::before { opacity: 1; }
+
+  .comp-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+  .comp-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: var(--surface2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; flex-shrink: 0;
+  }
+  .comp-name { font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 2px; }
+  .comp-sub { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--muted); }
+  .comp-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 20px; }
+
+  /* Schematic symbol SVG area */
+  .comp-schematic {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 80px;
+    margin-bottom: 16px;
+  }
+  .comp-schematic svg { max-width: 100%; }
+
+  /* Tip box */
+  .comp-tip {
+    display: flex; gap: 10px;
+    background: rgba(240,240,128,0.06);
+    border: 1px solid rgba(240,240,128,0.15);
+    border-radius: 8px; padding: 10px 14px;
+    font-size: 0.82rem;
+  }
+  .comp-tip .tip-icon { font-size: 1rem; flex-shrink: 0; }
+  .comp-tip-text { color: #d4d4a0; }
+  .comp-tip-text strong { color: var(--accent); }
+
+
+  /* ─── COMPONENT MINI CARDS ─── */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 12px;
+    margin-top: 48px;
+  }
+  .comp-mini {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 18px;
+    text-decoration: none; color: var(--text);
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .comp-mini:hover {
+    border-color: rgba(255,255,255,0.18);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+  }
+  .comp-mini-icon { font-size: 1.6rem; flex-shrink: 0; line-height: 1; }
+  .comp-mini-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.92rem; font-weight: 700;
+  }
+  .comp-mini-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem; color: var(--muted);
+    margin-top: 3px; line-height: 1.4;
+  }
+  .comp-mini-arrow {
+    color: var(--muted); margin-left: auto; flex-shrink: 0;
+    font-size: 0.85rem; transition: color 0.2s, transform 0.2s;
+  }
+  .comp-mini:hover .comp-mini-arrow { color: var(--green); transform: translateX(4px); }
+  .comp-mini-num {
+    position: absolute; top: 8px; right: 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem; color: var(--muted);
+  }
+
+  /* ─── HOW IT WORKS ─── */
+  .flow-section { background: var(--surface); border-radius: 24px; padding: 64px; margin: 0 24px; }
+  @media (max-width: 768px) { .flow-section { margin: 0; border-radius: 0; padding: 40px 24px; } }
+
+  .flow-grid { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0; align-items: center; margin-top: 48px; }
+  .flow-step {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    position: relative;
+  }
+  .flow-step-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; color: var(--muted);
+    margin-bottom: 16px;
+    display: block;
+  }
+  .flow-step-icon { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+  .flow-step h3 { font-size: 1.2rem; margin-bottom: 8px; }
+  .flow-step p { color: var(--muted); font-size: 0.85rem; }
+  .flow-step.gen .flow-step-icon { filter: drop-shadow(0 0 8px rgba(92,184,92,0.6)); }
+  .flow-step.trans .flow-step-icon { filter: drop-shadow(0 0 8px rgba(58,63,168,0.6)); }
+  .flow-step.use .flow-step-icon { filter: drop-shadow(0 0 8px rgba(224,92,42,0.6)); }
+  .flow-arrow {
+    padding: 0 16px;
+    color: var(--muted); font-size: 1.5rem;
+  }
+
+  /* ─── PRACTICES ─── */
+  .practices-list { display: flex; flex-direction: column; gap: 16px; }
+  .practice-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .practice-item:hover { border-color: rgba(255,255,255,0.15); }
+  .practice-header {
+    display: flex; align-items: center; gap: 20px;
+    padding: 20px 24px;
+    cursor: pointer;
+  }
+  .practice-num {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .practice-num.g { background: rgba(92,184,92,0.12); color: var(--green); border: 1px solid rgba(92,184,92,0.25); }
+  .practice-num.o { background: rgba(224,92,42,0.12); color: var(--orange); border: 1px solid rgba(224,92,42,0.25); }
+  .practice-num.b { background: rgba(58,63,168,0.2); color: #7b88ff; border: 1px solid rgba(123,136,255,0.25); }
+  .practice-title { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; flex: 1; }
+  .practice-title span { font-size: 0.8rem; font-family: 'DM Sans', sans-serif; font-weight: 400; color: var(--muted); display: block; margin-top: 2px; }
+  .practice-toggle { color: var(--muted); font-size: 1.2rem; transition: transform 0.3s; }
+  .practice-item.open .practice-toggle { transform: rotate(180deg); }
+  .practice-body {
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+    border-top: 0px solid var(--border);
+  }
+  .practice-item.open .practice-body { max-height: 600px; border-top-width: 1px; }
+  .practice-content { padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 600px) { .practice-content { grid-template-columns: 1fr; } }
+  .practice-materials h4 { font-size: 0.85rem; color: var(--muted); font-family: 'Space Mono', monospace; margin-bottom: 12px; }
+  .material-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .material-list li {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.9rem;
+  }
+  .material-list li::before { content: '○'; color: var(--muted); font-size: 0.6rem; }
+  .practice-goal { background: var(--bg); border-radius: 10px; padding: 16px; }
+  .practice-goal h4 { font-size: 0.85rem; color: var(--muted); font-family: 'Space Mono', monospace; margin-bottom: 8px; }
+  .practice-goal p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+  /* ─── KIT CTA ─── */
+  .kit-section {
+    position: relative; z-index: 1;
+    background: linear-gradient(135deg, var(--navy) 0%, #2a1a3a 100%);
+    padding: 100px 0;
+    overflow: hidden;
+  }
+  .kit-section::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(92,184,92,0.15) 0%, transparent 70%);
+  }
+  .kit-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
+  .kit-title { font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 800; margin-bottom: 20px; }
+  .kit-title span { color: var(--green); }
+  .kit-desc { color: var(--muted); margin-bottom: 32px; font-size: 1.05rem; line-height: 1.8; }
+  .kit-items { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .kit-items li {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 0.95rem;
+  }
+  .kit-items li::before {
+    content: '✓';
+    width: 22px; height: 22px;
+    background: var(--green); color: #0d0e1a;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 900; flex-shrink: 0;
+  }
+
+  .kit-box {
+    background: var(--surface);
+    border: 1px solid rgba(92,184,92,0.2);
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: 0 0 60px rgba(92,184,92,0.08);
+  }
+  .kit-box-header { margin-bottom: 28px; }
+  .kit-box-title { font-size: 0.75rem; font-family: 'Space Mono', monospace; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+  .kit-price { font-size: 2.8rem; font-weight: 800; font-family: 'Syne', sans-serif; line-height: 1; }
+  .kit-price sup { font-size: 1.2rem; vertical-align: top; margin-top: 6px; color: var(--muted); }
+  .kit-price small { font-size: 0.9rem; color: var(--muted); font-family: 'DM Sans', sans-serif; font-weight: 400; }
+  .kit-components-preview { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .kit-components-preview .tag {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    font-family: 'Space Mono', monospace;
+    color: var(--muted);
+  }
+  .kit-btn {
+    width: 100%;
+    background: var(--green); color: #0d0e1a;
+    border: none; border-radius: 12px; padding: 16px;
+    font-size: 1rem; font-weight: 800; cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    transition: all 0.2s;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+  }
+  .kit-btn:hover { transform: translateY(-2px); box-shadow: var(--glow-green); }
+  .kit-note { font-size: 0.78rem; color: var(--muted); text-align: center; margin-top: 12px; }
+
+  /* ─── COLOR KEY ─── */
+  .color-key {
+    display: flex; gap: 24px; flex-wrap: wrap;
+    margin-bottom: 56px;
+  }
+  .color-key-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--muted); }
+  .color-swatch { width: 12px; height: 12px; border-radius: 3px; }
+  .color-swatch.g { background: var(--green); }
+  .color-swatch.o { background: var(--orange); }
+  .color-swatch.b { background: #7b88ff; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+    position: relative; z-index: 1;
+  }
+  .footer-inner {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: gap;
+    gap: 16px;
+  }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; }
+  .footer-copy { font-size: 0.82rem; color: var(--muted); }
+  .footer-dots { display: flex; gap: 8px; }
+  .footer-dots span { width: 8px; height: 8px; border-radius: 50%; }
+  .footer-dots span:nth-child(1) { background: var(--green); }
+  .footer-dots span:nth-child(2) { background: var(--blue); }
+  .footer-dots span:nth-child(3) { background: var(--orange); }
+  .footer-dots span:nth-child(4) { background: var(--navy); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .concept-grid { grid-template-columns: 1fr; }
+    .concept-card:first-child { border-radius: var(--r-lg) var(--r-lg) 0 0; }
+    .concept-card:last-child { border-radius: 0 0 var(--r-lg) var(--r-lg); }
+    .flow-grid { grid-template-columns: 1fr; }
+    .flow-arrow { transform: rotate(90deg); text-align: center; }
+    .kit-inner { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
+  @media (max-width: 600px) {
+    .section { padding: 64px 0; }
+    .nav-cta { display: none; }
+  }
+
+  /* Mobile menu */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    background: rgba(13,14,26,0.98);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 24px;
+    z-index: 99;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { color: var(--text); text-decoration: none; font-size: 1.1rem; font-weight: 500; padding: 8px 0; }
+
+  .practice-link {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-family: 'Space Mono', monospace;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .practice-link::after { content: 'u2192'; transition: transform 0.2s; }
+  .practice-link:hover { background: rgba(255,255,255,0.03); color: var(--text); }
+  .practice-link:hover::after { transform: translateX(5px); }
+
+    .project-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 14px;
+    padding: 8px 16px; border-radius: 8px;
+    background: rgba(92,184,92,0.08); border: 1px solid rgba(92,184,92,0.2);
+    color: var(--green); font-size: 0.8rem;
+    font-family: 'Space Mono', monospace;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .project-link:hover { background: rgba(92,184,92,0.14); border-color: rgba(92,184,92,0.35); }
+  /* resistor color bands */
+  .resistor-bands {
+    display: inline-flex; align-items: center; gap: 2px;
+    background: #d4b483; border-radius: 4px; padding: 4px 8px;
+    font-size: 0.6rem;
+  }
+  .band { width: 6px; height: 20px; border-radius: 2px; }
+
+  /* ─── HIGHLIGHTED SECTION ─── */
+  .highlight-box {
+    background: rgba(92,184,92,0.06);
+    border: 1px solid rgba(92,184,92,0.2);
+    border-radius: 16px;
+    padding: 32px;
+    margin-top: 48px;
+  }
+  .highlight-box h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--green); }
+  .highlight-box p { color: var(--muted); font-size: 0.95rem; }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="dot"></span>
+      elétrons mania
+    </a>
+    <ul class="nav-links">
+      <li><a href="#componentes">Componentes</a></li>
+      <li><a href="#praticas">Práticas</a></li>
+      <li><a href="#kit">O Kit</a></li>
+    </ul>
+    <a href="#kit" class="nav-cta">Comprar Kit</a>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#componentes" onclick="toggleMenu()">Componentes</a>
+  <a href="#praticas" onclick="toggleMenu()">Práticas</a>
+  <a href="#kit" onclick="toggleMenu()">O Kit</a>
+  <a href="#kit" class="btn-primary" style="text-align:center" onclick="toggleMenu()">Comprar Kit</a>
+</div>
+
+<!-- HERO -->
+<section class="hero section">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-tag">Guia Interativo · Krause Kits</div>
+        <h1>Descubra a<br><em>Eletrônica</em> na<br><span>prática</span></h1>
+        <p class="hero-desc">
+          Aprenda como funciona a eletricidade que move o mundo — desde LEDs e resistores até transistores e chips — com experiências reais usando componentes físicos.
+        </p>
+        <div class="hero-actions">
+          <a href="#componentes" class="btn-primary">Explorar componentes</a>
+          <a href="#kit" class="btn-secondary">Ver o kit →</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-board">
+          <div class="board-label">breadboard · placa de ensaios</div>
+          <div class="led-comp" title="LED piscando!"></div>
+          <div class="breadboard" id="breadboard"></div>
+          <div class="chips-row">
+            <span class="chip-badge g">LED</span>
+            <span class="chip-badge o">Resistor</span>
+            <span class="chip-badge b">Transistor</span>
+            <span class="chip-badge g">Buzzer</span>
+            <span class="chip-badge o">Capacitor</span>
+            <span class="chip-badge b">Timer 555</span>
+            <span class="chip-badge g">LDR</span>
+            <span class="chip-badge o">Motor DC</span>
+          </div>
+        </div>
+      </div>
+    </div><!-- /hero-grid -->
+  </div><!-- /container -->
+</section><!-- /hero -->
+
+<!-- COMPONENTES -->
+<section class="section" id="componentes">
+  <div class="container">
+    <p class="section-label">// o que você vai usar</p>
+    <h2 class="section-title">Os <em style="color:var(--green);font-style:normal">componentes</em></h2>
+    <p class="section-desc">11 componentes — 11 práticas. Cada um com uma função diferente no circuito. Clique para ir direto à prática.</p>
+
+    <div class="comp-grid">
+
+      <a class="comp-mini reveal" href="protoboard.html">
+        <span class="comp-mini-num">BB</span>
+        <span class="comp-mini-icon">🧩</span>
+        <div>
+          <div class="comp-mini-name">Placa de Ensaio</div>
+          <div class="comp-mini-sub">Como usar a protoboard</div>
+        </div>
+        <span class="comp-mini-arrow">→</span>
+      </a>
+
+      <a class="comp-mini reveal" href="pratica-01.html">
+        <span class="comp-mini-num">01</span>
+        <span class="comp-mini-icon">💡</span>
+        <div>
+          <div class="comp-mini-name">LED</div>
+          <div class="comp-mini-sub">Diodo Emissor de Luz</div>
+        </div>
+        <span class="comp-mini-arrow">→</span>
+      </a>
+
+      <a class="comp-mini reveal" href="pratica-02.html">
+        <span class="comp-mini-num">02</span>
+        <span class="comp-mini-icon">⬛</span>
+        <div>
+          <div class="comp-mini-name">Resistor</div>
+          <div class="comp-mini-sub">Controla a corrente</div>
+        </div>
+        <span class="comp-mini-arrow">→</span>
+      </a>
+
+      <a class="comp-mini reveal" href="pratica-03.html">
+        <span class="comp-mini-num">03</span>
+        <span class="comp-mini-icon">🔘</span>
+        <div>
+          <div class="comp-mini-name">Botão Táctil</div>
+          <div class="comp-mini-sub">Interruptor momentâneo</div>
+        </div>
+        <span class="comp-mini-arrow">→</span>
+      </a>
+
+      <a class="comp-mini reveal" href="pratica-04.html">
+        <span class="comp-mini-num">04</span>
+        <span class="comp-mini-icon">🔊</span>
+        <div>
+          <div class="comp-mini-name">Buzzer</div>
+          <div class="comp-mini-sub">Gera som eletrônico</div>
+        </div>
+        <span class="comp-mini-arrow">→</span>
+      </a>
+
+      <a class="comp-mini reveal" href="pratica-sw.html">
+        <span class="comp-mini-num">04b</span>
+        <span class="comp-mini-icon">🔁</span>
+        <div>
+          <div class="comp-mini-name">Interruptor DIP</div>
+          <div class="comp-mini-sub">Liga/desliga permanente</div>
+        </div>
+        <span class="comp-mini-arrow">→</span>
+      </a>
+
+      <a class="comp-mini reveal" href="pratica-05.html">
+        <span class="comp-mini-num">05</span>
+        <span class="comp-mini-icon">🎛️</span>
+        <div>
+          <div class="comp-mini-name">Potenciômetro</div>
+          <div class="comp-mini-sub">Resistor variável</div>
+        </div>
+        <span class="comp-mini-arrow">→</span>
+      </a>
+
+      <a class="comp-mini reveal" href="pratica-06.html">
+        <span class="comp-mini-num">06</span>
+        <span class="comp-mini-icon">☀️</span>
+        <div>
+          <div class="comp-mini-name">LDR</div>
+          <div class="comp-mini-sub">Sensor de luz</div>
+        </div>
+        <span class="comp-mini-arrow">→</span>
+      </a>
+
+      <a class="comp-mini reveal" href="pratica-07.html">
+        <span class="comp-mini-num">07</span>
+        <span class="comp-mini-icon">🔋</span>
+        <div>
+          <div class="comp-mini-name">Capacitor</div>
+          <div class="comp-mini-sub">Armazena energia</div>
+        </div>
+        <span class="comp-mini-arrow">→</span>
+      </a>
+
+      <a class="comp-mini reveal" href="pratica-08.html">
+        <span class="comp-mini-num">08</span>
+        <span class="comp-mini-icon">⚙️</span>
+        <div>
+          <div class="comp-mini-name">Motor DC</div>
+          <div class="comp-mini-sub">Energia elétrica → movimento</div>
+        </div>
+        <span class="comp-mini-arrow">→</span>
+      </a>
+
+      <a class="comp-mini reveal" href="pratica-09.html">
+        <span class="comp-mini-num">09</span>
+        <span class="comp-mini-icon">🔌</span>
+        <div>
+          <div class="comp-mini-name">Transistor NPN</div>
+          <div class="comp-mini-sub">Amplifica e chaveia</div>
+        </div>
+        <span class="comp-mini-arrow">→</span>
+      </a>
+
+      <a class="comp-mini reveal" href="pratica-10.html">
+        <span class="comp-mini-num">10</span>
+        <span class="comp-mini-icon">🤖</span>
+        <div>
+          <div class="comp-mini-name">Chip Timer 555</div>
+          <div class="comp-mini-sub">Temporização e oscilação</div>
+        </div>
+        <span class="comp-mini-arrow">→</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRÁTICAS -->
+<section class="section" id="praticas">
+  <div class="container">
+    <p class="section-label">// projetos práticos</p>
+    <h2 class="section-title">Mão na <em style="color:var(--orange);font-style:normal">massa</em></h2>
+    <p class="section-desc">Do mais simples ao mais complexo. Cada prática constrói sobre a anterior — você realmente aprende fazendo.</p>
+
+    <div class="practices-list">
+
+      <div class="practice-item">
+        <div class="practice-header" onclick="togglePractice(this)">
+          <div class="practice-num g">01</div>
+          <div class="practice-title">
+            Acendendo um LED
+            <span>Seu primeiro circuito eletrônico</span>
+          </div>
+          <span class="practice-toggle">▾</span>
+        </div>
+        <div class="practice-body">
+          <div class="practice-content">
+            <div class="practice-materials">
+              <h4>MATERIAIS</h4>
+              <ul class="material-list">
+                <li>Placa de ensaios</li>
+                <li>LED verde</li>
+                <li>Resistor pequeno</li>
+                <li>Suporte de pilhas com pilhas AA</li>
+              </ul>
+            </div>
+            <div class="practice-goal">
+              <h4>OBJETIVO</h4>
+              <p>Monte um circuito completo para acender o LED: pilhas (gerar) → placa + resistor (transportar) → LED (utilizar). Conecte a perna MAIOR do LED no resistor — nunca diretamente na pilha!</p>
+            </div>
+          </div>
+        </div>
+        
+        <a class="practice-link" href="pratica-01.html">Ver prática completa</a>
+      </div>
+
+      <div class="practice-item">
+        <div class="practice-header" onclick="togglePractice(this)">
+          <div class="practice-num o">02</div>
+          <div class="practice-title">
+            LEDs com resistores diferentes
+            <span>Entendendo como a resistência afeta o brilho</span>
+          </div>
+          <span class="practice-toggle">▾</span>
+        </div>
+        <div class="practice-body">
+          <div class="practice-content">
+            <div class="practice-materials">
+              <h4>MATERIAIS</h4>
+              <ul class="material-list">
+                <li>Placa de ensaios</li>
+                <li>2 LEDs da mesma cor</li>
+                <li>Resistor pequeno</li>
+                <li>Resistor grande</li>
+                <li>Suporte de pilhas</li>
+              </ul>
+            </div>
+            <div class="practice-goal">
+              <h4>OBJETIVO</h4>
+              <p>Ligue dois LEDs iguais com resistores de tamanhos diferentes e observe como o LED com resistor menor brilha mais — pois recebe mais energia!</p>
+            </div>
+          </div>
+        </div>
+        
+        <a class="practice-link" href="pratica-02.html">Ver prática completa</a>
+      </div>
+
+      <div class="practice-item">
+        <div class="practice-header" onclick="togglePractice(this)">
+          <div class="practice-num b">03</div>
+          <div class="practice-title">
+            LED com Botão
+            <span>Controlando o circuito com pressão</span>
+          </div>
+          <span class="practice-toggle">▾</span>
+        </div>
+        <div class="practice-body">
+          <div class="practice-content">
+            <div class="practice-materials">
+              <h4>MATERIAIS</h4>
+              <ul class="material-list">
+                <li>Placa de ensaios</li>
+                <li>LED (qualquer cor)</li>
+                <li>Resistor pequeno</li>
+                <li>Botão táctil</li>
+                <li>Suporte de pilhas</li>
+              </ul>
+            </div>
+            <div class="practice-goal">
+              <h4>OBJETIVO</h4>
+              <p>Insira o botão entre a fonte e o LED. O botão abre e fecha o circuito — sem precisar remover nenhum componente! Use apenas as 2 pernas de cima.</p>
+            </div>
+          </div>
+        </div>
+        
+        <a class="practice-link" href="pratica-03.html">Ver prática completa</a>
+      </div>
+
+      <div class="practice-item">
+        <div class="practice-header" onclick="togglePractice(this)">
+          <div class="practice-num g">04</div>
+          <div class="practice-title">
+            Buzzer sonoro
+            <span>Fazendo barulho eletrônico</span>
+          </div>
+          <span class="practice-toggle">▾</span>
+        </div>
+        <div class="practice-body">
+          <div class="practice-content">
+            <div class="practice-materials">
+              <h4>MATERIAIS</h4>
+              <ul class="material-list">
+                <li>Placa de ensaios</li>
+                <li>Buzzer</li>
+                <li>Suporte de pilhas</li>
+              </ul>
+            </div>
+            <div class="practice-goal">
+              <h4>OBJETIVO</h4>
+              <p>O buzzer não precisa de resistor! Ligue o pino "+" no fio vermelho. Depois, combine com o botão para criar um sistema de chamada.</p>
+            </div>
+          </div>
+        </div>
+        
+        <a class="practice-link" href="pratica-04.html">Ver prática completa</a>
+      </div>
+
+      
+      <div class="practice-item">
+        <div class="practice-header" onclick="togglePractice(this)">
+          <div class="practice-num o">04b</div>
+          <div class="practice-title">
+            Interruptor — Liga e Desliga
+            <span>Controlando com a chave DIP</span>
+          </div>
+          <span class="practice-toggle">▾</span>
+        </div>
+        <div class="practice-body">
+          <div class="practice-content">
+            <div class="practice-materials">
+              <h4>MATERIAIS</h4>
+              <ul class="material-list">
+                <li>Placa de ensaios</li>
+                <li>LED (qualquer cor)</li>
+                <li>Resistor Pequeno</li>
+                <li>Interruptor DIP switch</li>
+                <li>Suporte de pilhas com pilhas</li>
+              </ul>
+            </div>
+            <div class="practice-goal">
+              <h4>OBJETIVO</h4>
+              <p>Insira o interruptor no meio do circuito do LED. Ao acionar a chave nº 1, o LED liga e permanece ligado — diferente do botão que precisa ficar pressionado. Use apenas os 2 pinos da chave nº 1.</p>
+            </div>
+          </div>
+        </div>
+        <a class="practice-link" href="pratica-sw.html">Ver prática completa</a>
+      </div>
+
+      <div class="practice-item">
+        <div class="practice-header" onclick="togglePractice(this)">
+          <div class="practice-num o">05</div>
+          <div class="practice-title">
+            Potenciômetro — Dimmer de LED
+            <span>Controlando brilho mecanicamente</span>
+          </div>
+          <span class="practice-toggle">▾</span>
+        </div>
+        <div class="practice-body">
+          <div class="practice-content">
+            <div class="practice-materials">
+              <h4>MATERIAIS</h4>
+              <ul class="material-list">
+                <li>Placa de ensaios</li>
+                <li>LED (qualquer cor)</li>
+                <li>Resistor pequeno</li>
+                <li>Potenciômetro</li>
+                <li>Suporte de pilhas</li>
+              </ul>
+            </div>
+            <div class="practice-goal">
+              <h4>OBJETIVO</h4>
+              <p>Gire a haste do potenciômetro e veja o brilho do LED mudar em tempo real. Use pino esquerdo + pino do meio. Adicione resistor fixo para evitar queimar o LED na posição zero.</p>
+            </div>
+          </div>
+        </div>
+        
+        <a class="practice-link" href="pratica-05.html">Ver prática completa</a>
+      </div>
+
+      <div class="practice-item">
+        <div class="practice-header" onclick="togglePractice(this)">
+          <div class="practice-num b">06</div>
+          <div class="practice-title">
+            LDR — Sensor de Luz
+            <span>LED que reage ao ambiente</span>
+          </div>
+          <span class="practice-toggle">▾</span>
+        </div>
+        <div class="practice-body">
+          <div class="practice-content">
+            <div class="practice-materials">
+              <h4>MATERIAIS</h4>
+              <ul class="material-list">
+                <li>Placa de ensaios</li>
+                <li>LED (qualquer cor)</li>
+                <li>LDR (fotorresistência)</li>
+                <li>Suporte de pilhas</li>
+              </ul>
+            </div>
+            <div class="practice-goal">
+              <h4>OBJETIVO</h4>
+              <p>Substitua o resistor pelo LDR. Com a mão sobre o LDR (escuro), o LED apaga. Aproxime uma lanterna e ele acende forte. Base das luzes automáticas de rua!</p>
+            </div>
+          </div>
+        </div>
+        <a class="practice-link" href="pratica-06.html">Ver prática completa</a>
+      </div>
+
+      <div class="practice-item">
+        <div class="practice-header" onclick="togglePractice(this)">
+          <div class="practice-num g">07</div>
+          <div class="practice-title">
+            Capacitor — Guardando Energia
+            <span>LED que acende sem pilhas</span>
+          </div>
+          <span class="practice-toggle">▾</span>
+        </div>
+        <div class="practice-body">
+          <div class="practice-content">
+            <div class="practice-materials">
+              <h4>MATERIAIS</h4>
+              <ul class="material-list">
+                <li>Placa de ensaios</li>
+                <li>LED (qualquer cor)</li>
+                <li>Resistor pequeno</li>
+                <li>Capacitor</li>
+                <li>Botão táctil</li>
+                <li>Suporte de pilhas</li>
+              </ul>
+            </div>
+            <div class="practice-goal">
+              <h4>OBJETIVO</h4>
+              <p>Carregue o capacitor com as pilhas. Desconecte as pilhas. Aperte o botão — o LED acende por alguns segundos usando energia armazenada no capacitor. Magia!</p>
+            </div>
+          </div>
+        </div>
+        <a class="practice-link" href="pratica-07.html">Ver prática completa</a>
+      </div>
+
+      <div class="practice-item">
+        <div class="practice-header" onclick="togglePractice(this)">
+          <div class="practice-num o">08</div>
+          <div class="practice-title">
+            Motor DC
+            <span>Energia elétrica → mecânica</span>
+          </div>
+          <span class="practice-toggle">▾</span>
+        </div>
+        <div class="practice-body">
+          <div class="practice-content">
+            <div class="practice-materials">
+              <h4>MATERIAIS</h4>
+              <ul class="material-list">
+                <li>Motor DC</li>
+                <li>Suporte de pilhas</li>
+              </ul>
+            </div>
+            <div class="practice-goal">
+              <h4>OBJETIVO</h4>
+              <p>Ligue o motor diretamente nas pilhas (sem resistor). Inverta os fios para mudar o sentido de rotação. São 3 energias em sequência: química → elétrica → mecânica!</p>
+            </div>
+          </div>
+        </div>
+        <a class="practice-link" href="pratica-08.html">Ver prática completa</a>
+      </div>
+
+      <div class="practice-item">
+        <div class="practice-header" onclick="togglePractice(this)">
+          <div class="practice-num b">09</div>
+          <div class="practice-title">
+            Transistor — Circuito Inversor
+            <span>O componente que mudou o mundo</span>
+          </div>
+          <span class="practice-toggle">▾</span>
+        </div>
+        <div class="practice-body">
+          <div class="practice-content">
+            <div class="practice-materials">
+              <h4>MATERIAIS</h4>
+              <ul class="material-list">
+                <li>Placa de ensaios</li>
+                <li>2 LEDs (qualquer cor)</li>
+                <li>2 Resistores pequenos</li>
+                <li>Transistor NPN</li>
+                <li>Botão táctil</li>
+                <li>Suporte de pilhas</li>
+              </ul>
+            </div>
+            <div class="practice-goal">
+              <h4>OBJETIVO</h4>
+              <p>Monte um inversor: quando o LED 1 acende (botão pressionado), o LED 2 apaga. Quando o LED 1 apaga, o LED 2 acende. O transistor inverte o resultado!</p>
+            </div>
+          </div>
+        </div>
+        <a class="practice-link" href="pratica-09.html">Ver prática completa</a>
+      </div>
+
+      <div class="practice-item">
+        <div class="practice-header" onclick="togglePractice(this)">
+          <div class="practice-num g" style="background:rgba(224,92,42,0.12);color:var(--orange);border-color:rgba(224,92,42,0.25)">10</div>
+          <div class="practice-title">
+            Chip 555 — LED piscante
+            <span>Circuito mais complexo do kit 🔥</span>
+          </div>
+          <span class="practice-toggle">▾</span>
+        </div>
+        <div class="practice-body">
+          <div class="practice-content">
+            <div class="practice-materials">
+              <h4>MATERIAIS</h4>
+              <ul class="material-list">
+                <li>Placa de ensaios</li>
+                <li>Chip Timer 555</li>
+                <li>Resistor pequeno, médio e grande</li>
+                <li>Capacitor</li>
+                <li>LED (qualquer cor)</li>
+                <li>2 fios jumper</li>
+                <li>Suporte de pilhas</li>
+              </ul>
+            </div>
+            <div class="practice-goal">
+              <h4>OBJETIVO</h4>
+              <p>Use o temporizador interno do chip 555 para fazer o LED piscar automaticamente. Atenção: a bolinha do chip fica para a ESQUERDA. O circuito conecta os pinos 1,2,4,5,6,7,8 com resistores e capacitor.</p>
+            </div>
+          </div>
+        </div>
+        
+        <a class="practice-link" href="pratica-10.html">Ver prática completa</a>
+      </div>
+
+    </div><!-- /practices-list -->
+
+    <!-- BONUS PROJECTS -->
+    <div style="margin-top: 64px; padding-top: 64px; border-top: 1px solid var(--border);">
+      <p class="section-label" style="margin-bottom:24px">// projetos finais · sem passo a passo</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+
+        <div class="comp-card reveal" style="border-color: rgba(224,92,42,0.2);">
+          <div style="font-size: 2rem; margin-bottom: 12px;">🌃</div>
+          <div class="comp-name" style="margin-bottom: 8px;">Luz Noturna Automática</div>
+          <p class="comp-desc">Usa LDR + 2 transistores para acender o LED quando escurece — exatamente como as luzes de rua da sua cidade.</p>
+          <div class="comp-tip" style="margin-top:12px">
+            <span class="tip-icon">🔧</span>
+            <span class="comp-tip-text">2 transistores + 2 resistores + LDR + LED</span>
+          </div>
+          <a class="project-link" href="projeto-01.html">Ver projeto completo →</a>
+        </div>
+
+        <div class="comp-card reveal" style="border-color: rgba(92,184,92,0.2);">
+          <div style="font-size: 2rem; margin-bottom: 12px;">🎵</div>
+          <div class="comp-name" style="margin-bottom: 8px;">Metrônomo Eletrônico</div>
+          <p class="comp-desc">Chip 555 + potenciômetro + buzzer = marcador de tempo musical. Gire o potenciômetro para ajustar o BPM da sua música.</p>
+          <div class="comp-tip" style="margin-top:12px">
+            <span class="tip-icon">🔧</span>
+            <span class="comp-tip-text">Chip 555 + potenciômetro + buzzer + 2 LEDs</span>
+          </div>
+          <a class="project-link" href="projeto-02.html">Ver projeto completo →</a>
+        </div>
+
+        <div class="comp-card reveal" style="border-color: rgba(123,136,255,0.2);">
+          <div style="font-size: 2rem; margin-bottom: 12px;">💧</div>
+          <div class="comp-name" style="margin-bottom: 8px;">Sensor de Nível de Água</div>
+          <p class="comp-desc">2 transistores e fios soltos na água detectam 2 níveis diferentes e acendem LEDs de alerta. Funciona em aquário ou caixa d'água!</p>
+          <div class="comp-tip" style="margin-top:12px">
+            <span class="tip-icon">🔧</span>
+            <span class="comp-tip-text">2 transistores + 2 resistores + 2 LEDs + fios</span>
+          </div>
+          <a class="project-link" href="projeto-03.html">Ver projeto completo →</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KIT CTA -->
+<section class="kit-section" id="kit">
+  <div class="container">
+    <div class="kit-inner">
+      <div>
+        <p class="section-label" style="color: rgba(255,255,255,0.4);">// elétrons mania kit</p>
+        <h2 class="kit-title">O guia é gratuito.<br>Compre só o <span>kit</span>.</h2>
+        <p class="kit-desc">
+          Todo o conteúdo educacional está aqui, neste site, de graça. Você compra apenas os componentes físicos para fazer as experiências na prática — porque eletrônica se aprende fazendo.
+        </p>
+        <ul class="kit-items">
+          <li>LEDs em 3 cores diferentes</li>
+          <li>Resistores pequeno, médio e grande</li>
+          <li>Botões tácteis e interruptor DIP</li>
+          <li>Buzzer, motor DC e potenciômetro</li>
+          <li>LDR, capacitores e transistor NPN</li>
+          <li>Chip Timer 555</li>
+          <li>Placa de ensaios (breadboard)</li>
+          <li>Suporte de pilhas AA</li>
+          <li>Fios jumper coloridos</li>
+        </ul>
+      </div>
+
+      <div class="kit-box">
+        <div class="kit-box-header">
+          <div class="kit-box-title">Kit Completo de Componentes</div>
+          <div class="kit-price">
+            <sup>R$</sup>149<small>,90</small>
+          </div>
+          <p style="color: var(--muted); font-size: 0.85rem; margin-top: 8px;">Guia 100% online e gratuito</p>
+        </div>
+        <div class="kit-components-preview">
+          <span class="tag">LED ×3</span>
+          <span class="tag">Resistor ×3</span>
+          <span class="tag">Botão ×2</span>
+          <span class="tag">Buzzer</span>
+          <span class="tag">Motor DC</span>
+          <span class="tag">LDR</span>
+          <span class="tag">Transistor</span>
+          <span class="tag">Capacitor</span>
+          <span class="tag">Potenciômetro</span>
+          <span class="tag">Timer 555</span>
+          <span class="tag">Breadboard</span>
+          <span class="tag">Fios Jumper</span>
+        </div>
+        <a href="#" class="kit-btn" onclick="alert('Em breve! Entre em contato para pré-venda.')">Comprar Kit →</a>
+        <p class="kit-note">🚚 Frete grátis para todo Brasil · 30 dias de garantia</p>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">⚡ elétrons mania</div>
+      <div class="footer-dots">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <p class="footer-copy">© 2024 Krause Kits · Descobrindo a Eletrônica</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Generate breadboard holes
+const bb = document.getElementById('breadboard');
+if (bb) {
+  for(let row = 0; row < 5; row++) {
+    for(let col = 0; col < 15; col++) {
+      const h = document.createElement('div');
+      h.className = 'hole';
+      const r = Math.random();
+      if(r < 0.05) h.className = 'hole power';
+      else if(r < 0.08) h.className = 'hole gnd';
+      else if(r < 0.18) h.className = 'hole used';
+      bb.appendChild(h);
+    }
+    if(row === 2) {
+      const sep = document.createElement('div');
+      sep.style.cssText = 'grid-column: 1/-1; height: 8px; background: rgba(0,0,0,0.1); border-radius: 4px; margin: 2px 0;';
+      bb.appendChild(sep);
+    }
+  }
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Toggle comp cards
+function toggleCard(card) {
+  // Just visual feedback - cards are always visible
+  card.style.transform = card.style.transform === 'translateY(-4px)' ? '' : 'translateY(-4px)';
+}
+
+// Toggle practice accordion
+function togglePractice(header) {
+  const item = header.parentElement;
+  const isOpen = item.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.practice-item').forEach(i => i.classList.remove('open'));
+  // Open clicked if was closed
+  if (!isOpen) item.classList.add('open');
+}
+
+// Mobile menu
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// Close mobile menu on outside click
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('mobileMenu');
+  const hamburger = document.querySelector('.hamburger');
+  if (menu.classList.contains('open') && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+    menu.classList.remove('open');
+  }
+});
+</script>
+</body>
+</html>

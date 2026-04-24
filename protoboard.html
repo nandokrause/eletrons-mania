@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Placa de Ensaio — Como Usar | Elétrons Mania</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0e1117; --surface: #161b22; --surface2: #1c2128;
+    --border: rgba(255,255,255,0.08); --green: #5cb85c; --orange: #e05c2a;
+    --blue: #7b88ff; --muted: rgba(255,255,255,0.45); --text: #e8eaf0;
+    --radius: 14px;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 1rem; line-height: 1.7; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  /* ─── NAV ─── */
+  .pnav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+    background: rgba(14,17,23,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .pnav-back { display: flex; align-items: center; gap: 10px;
+    font-family: 'Space Mono', monospace; font-size: 0.75rem;
+    color: var(--muted); transition: color 0.2s; }
+  .pnav-back:hover { color: var(--green); }
+  .pnav-back svg { width: 16px; height: 16px; }
+  .pnav-brand { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700;
+    color: var(--text); opacity: 0.6; letter-spacing: -0.02em; }
+  .pnav-next { display: flex; align-items: center; gap: 8px;
+    font-family: 'Space Mono', monospace; font-size: 0.75rem;
+    color: var(--muted); transition: color 0.2s; }
+  .pnav-next:hover { color: var(--green); }
+
+  /* ─── HERO ─── */
+  .p-hero {
+    padding: 80px 0 60px;
+    background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .p-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(123,136,255,0.08) 0%, transparent 60%);
+  }
+  .container { max-width: 860px; margin: 0 auto; padding: 0 32px; position: relative; }
+  .p-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 52px; height: 52px; border-radius: 14px;
+    font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;
+    margin-bottom: 20px;
+    background: rgba(123,136,255,0.12); color: var(--blue); border: 1px solid rgba(123,136,255,0.3);
+  }
+  .p-hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 12px; }
+  .p-hero h1 em { color: var(--blue); font-style: normal; }
+  .p-subtitle { font-size: 1.1rem; color: var(--muted); margin-bottom: 24px; }
+  .p-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .p-tag { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem;
+    font-family: 'Space Mono', monospace;
+    background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
+
+  /* ─── CONTENT SECTIONS ─── */
+  .content { padding: 64px 0; }
+  .content-block { margin-bottom: 56px; }
+  .section-label-sm {
+    font-family: 'Space Mono', monospace; font-size: 0.68rem;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .content-block h2 {
+    font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800;
+    margin-bottom: 20px; letter-spacing: -0.02em;
+  }
+  .content-block p { color: rgba(232,234,240,0.85); margin-bottom: 14px; font-size: 0.97rem; }
+  .content-block p:last-child { margin-bottom: 0; }
+
+  /* ─── CALLOUT BOXES ─── */
+  .callout {
+    border-radius: var(--radius); padding: 18px 22px;
+    margin: 20px 0; display: flex; gap: 14px; align-items: flex-start;
+  }
+  .callout.warn { background: rgba(224,92,42,0.08); border: 1px solid rgba(224,92,42,0.2); }
+  .callout.info { background: rgba(92,184,92,0.07); border: 1px solid rgba(92,184,92,0.2); }
+  .callout.tip  { background: rgba(123,136,255,0.08); border: 1px solid rgba(123,136,255,0.2); }
+  .callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+  .callout p { margin: 0; font-size: 0.92rem; color: rgba(232,234,240,0.9); }
+
+  /* ─── IMAGE PAIR ─── */
+  .img-pair {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0;
+  }
+  @media (max-width: 580px) { .img-pair { grid-template-columns: 1fr; } }
+  .img-card {
+    background: #f5f5f5; border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--border); cursor: zoom-in;
+  }
+  .img-card img { width: 100%; object-fit: contain; display: block; }
+  .img-label {
+    padding: 8px 12px; background: var(--surface);
+    font-family: 'Space Mono', monospace; font-size: 0.68rem;
+    color: var(--muted); text-align: center;
+  }
+
+  /* ─── STEPS ─── */
+  .steps-list { display: flex; flex-direction: column; gap: 32px; }
+  .step-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .step-header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 18px 24px; border-bottom: 1px solid var(--border);
+  }
+  .step-n {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(123,136,255,0.12); border: 1px solid rgba(123,136,255,0.25);
+    color: var(--blue); font-family: 'Space Mono', monospace;
+    font-size: 0.8rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .step-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; }
+  .step-body {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  }
+  @media (max-width: 640px) { .step-body { grid-template-columns: 1fr; } }
+  .step-img-wrap {
+    background: #f5f5f5; display: flex; align-items: center; justify-content: center;
+    min-height: 220px; cursor: zoom-in; overflow: hidden;
+    border-right: 1px solid var(--border);
+  }
+  .step-img-wrap img { width: 100%; height: 100%; object-fit: contain; }
+  .step-text { padding: 22px 24px; font-size: 0.9rem; color: rgba(232,234,240,0.85);
+    display: flex; flex-direction: column; justify-content: center; }
+  .step-text p { margin-bottom: 10px; }
+  .step-text p:last-child { margin-bottom: 0; }
+  .step-text strong { color: var(--text); }
+  .step-body.stacked { grid-template-columns: 1fr; }
+  .step-body.stacked .step-img-wrap { border-right: none; border-bottom: 1px solid var(--border); min-height: 260px; }
+
+  /* ─── RESULT BOX ─── */
+  .result-box {
+    background: linear-gradient(135deg, rgba(123,136,255,0.07) 0%, rgba(14,17,23,0) 100%);
+    border: 1px solid rgba(123,136,255,0.2); border-radius: var(--radius);
+    padding: 28px 32px; margin-top: 48px;
+  }
+  .result-box h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800;
+    color: var(--blue); margin-bottom: 12px; }
+  .result-box p { font-size: 0.95rem; color: rgba(232,234,240,0.85); margin-bottom: 10px; }
+
+  /* ─── BOTTOM NAV ─── */
+  .bottom-nav {
+    border-top: 1px solid var(--border); padding: 40px 0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .bn-link {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 20px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--surface);
+    transition: border-color 0.2s; min-width: 200px;
+  }
+  .bn-link:hover { border-color: rgba(92,184,92,0.3); }
+  .bn-link.disabled { opacity: 0.25; pointer-events: none; }
+  .bn-link.right { text-align: right; flex-direction: row-reverse; }
+  .bn-arrow { font-size: 1.4rem; color: var(--green); }
+  .bn-text small { display: block; font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; }
+  .bn-text span { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; }
+
+  /* ─── LIGHTBOX ─── */
+  .lightbox { display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.94); z-index: 2000;
+    align-items: center; justify-content: center; }
+  .lightbox.open { display: flex; }
+  .lb-img { max-width: 86vw; max-height: 86vh; border-radius: 10px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.7); object-fit: contain; background: #fff; }
+  .lb-close, .lb-prev, .lb-next { position: absolute;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: white; cursor: pointer; border-radius: 8px; transition: background 0.2s; }
+  .lb-close:hover, .lb-prev:hover, .lb-next:hover { background: rgba(255,255,255,0.22); }
+  .lb-close { top: 20px; right: 24px; font-size: 1.2rem; padding: 7px 14px; }
+  .lb-prev  { left: 16px; top: 50%; transform: translateY(-50%); font-size: 2rem; padding: 10px 18px; }
+  .lb-next  { right: 16px; top: 50%; transform: translateY(-50%); font-size: 2rem; padding: 10px 18px; }
+  .lb-counter { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+    font-family: 'Space Mono', monospace; font-size: 0.72rem;
+    color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.4);
+    padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
+
+  @media (max-width: 640px) {
+    .pnav { padding: 12px 16px; }
+    .container { padding: 0 16px; }
+    .p-hero { padding: 50px 0 40px; }
+    .bn-link { min-width: 140px; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="pnav">
+  <a class="pnav-back" href="eletrons-mania.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Voltar ao início
+  </a>
+  <span class="pnav-brand">Elétrons Mania</span>
+  <a class="pnav-next" href="pratica-01.html">Prática 01 — LED →</a>
+</nav>
+
+<!-- HERO -->
+<div class="p-hero">
+  <div class="container">
+    <div class="p-num">BB</div>
+    <h1>Placa de <em>Ensaio</em></h1>
+    <p class="p-subtitle">Sua base para todos os circuitos</p>
+    <div class="p-tags">
+      <span class="p-tag">Protoboard</span>
+      <span class="p-tag">Conexões internas</span>
+      <span class="p-tag">Fundamentos</span>
+      <span class="p-tag">Antes de tudo</span>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="container">
+
+    <!-- O QUE É -->
+    <div class="content-block">
+      <p class="section-label-sm">// o que é</p>
+      <h2>A placa que conecta tudo</h2>
+      <div style="display:grid;grid-template-columns:1fr 260px;gap:32px;align-items:start">
+        <div>
+          <p>A <strong>placa de ensaio</strong> (ou protoboard) é a base onde você vai montar todos os seus circuitos. Ela permite conectar componentes e fios sem usar solda — basta enfiar as peças nos furinhos.</p>
+          <p>Por dentro da placa existem trilhas metálicas que conectam os furos de cada coluna. <strong>Você não consegue ver essas ligações</strong>, pois elas ficam escondidas dentro da placa — mas elas existem e são elas que fazem tudo funcionar.</p>
+          <div class="callout tip">
+            <span class="callout-icon">🔌</span>
+            <p>Pega a placa de ensaio do kit agora. Vamos aprender a usá-la olhando pra ela.</p>
+          </div>
+        </div>
+        <div>
+          <img src="htmllivro/guia36-web-resources/image/proto_foto.png"
+               alt="Placa de ensaio" onclick="openImg(this)"
+               style="width:100%;border-radius:10px;border:1px solid var(--border);cursor:zoom-in" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+    <!-- CONEXÕES INTERNAS -->
+    <div class="content-block">
+      <p class="section-label-sm">// como funciona por dentro</p>
+      <h2>As conexões internas</h2>
+      <p>As duas figuras abaixo mostram a mesma placa: uma é o diagrama das conexões internas, a outra é uma foto real. Repare como os furos de cada coluna estão todos ligados entre si — mas apenas dentro de um mesmo lado da placa.</p>
+
+      <div class="img-pair">
+        <div class="img-card">
+          <img src="htmllivro/guia36-web-resources/image/protoboard.png"
+               alt="Diagrama das conexões internas" onclick="openImg(this)" loading="lazy">
+          <div class="img-label">Diagrama — conexões internas</div>
+        </div>
+        <div class="img-card">
+          <img src="htmllivro/guia36-web-resources/image/protoboard_real.png"
+               alt="Foto real da placa de ensaio" onclick="openImg(this)" loading="lazy">
+          <div class="img-label">Foto real da placa</div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <p><strong>IMPORTANTE:</strong> As colunas de conexão <strong>NÃO</strong> atravessam o meio da placa. O meio é um separador — os furos de um lado não estão ligados com os furos do outro, mesmo estando na mesma coluna.</p>
+      </div>
+    </div>
+
+    <!-- EXEMPLO: DOIS FIOS -->
+    <div class="content-block">
+      <p class="section-label-sm">// exemplo prático</p>
+      <h2>Conectando dois fios</h2>
+      <p>Para entender como a placa funciona, vamos pensar no exemplo mais simples possível: conectar um fio no outro. Fora da placa, ficaria assim:</p>
+
+      <div class="img-pair" style="max-width:480px">
+        <div class="img-card">
+          <img src="htmllivro/guia36-web-resources/image/fios_separados.png"
+               alt="Dois fios soltos" onclick="openImg(this)" loading="lazy">
+          <div class="img-label">Dois fios soltos</div>
+        </div>
+        <div class="img-card">
+          <img src="htmllivro/guia36-web-resources/image/fios_juntos.png"
+               alt="Dois fios grudados" onclick="openImg(this)" loading="lazy">
+          <div class="img-label">Dois fios grudados</div>
+        </div>
+      </div>
+
+      <p style="margin-top:24px">Agora veja como fazemos a mesma coisa usando a placa de ensaio — inserindo os dois fios na <strong>mesma coluna</strong>:</p>
+
+      <div class="img-pair">
+        <div class="img-card">
+          <img src="htmllivro/guia36-web-resources/image/protoboard_dois_fios.png"
+               alt="Dois fios na protoboard" onclick="openImg(this)" loading="lazy">
+          <div class="img-label">Na plaquinha</div>
+        </div>
+        <div class="img-card">
+          <img src="htmllivro/guia36-web-resources/image/protoboard_dois_fios_mostrando.png"
+               alt="Conexão interna em amarelo" onclick="openImg(this)" loading="lazy">
+          <div class="img-label">Em amarelo — a conexão interna</div>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <span class="callout-icon">💡</span>
+        <p>Inserimos os fios nos buracos da <strong>mesma coluna</strong> e pronto — eles ficam conectados por dentro da placa, sem precisar grudar nada.</p>
+      </div>
+    </div>
+
+    <!-- CURIOSIDADE -->
+    <div class="content-block">
+      <div class="callout tip">
+        <span class="callout-icon">🏭</span>
+        <p><strong>Curiosidade:</strong> O modelo de placa de ensaio do kit é uma miniatura das placas usadas nas indústrias de eletrônicos. O funcionamento é exatamente o mesmo das placas maiores usadas no desenvolvimento de projetos eletrônicos nas empresas. Quando um engenheiro cria um novo produto, ele começa exatamente assim — montando na protoboard.</p>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-box">
+      <h3>Agora você sabe usar a placa!</h3>
+      <p>Com isso, você já entende o principal: <strong>furos na mesma coluna estão conectados</strong>. O meio da placa separa os dois lados. É só isso que você precisa saber para montar qualquer circuito do kit.</p>
+      <p>A partir da Prática 01, você vai usar a placa em todos os experimentos. Quanto mais você praticar, mais natural vai ficar — e em pouco tempo você nem vai precisar mais pensar nisso.</p>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav">
+      <a class="bn-link disabled" href="#">
+        <span class="bn-arrow">←</span>
+        <div class="bn-text">
+          <small>anterior</small>
+          <span>Início</span>
+        </div>
+      </a>
+      <a class="bn-link right" href="pratica-01.html">
+        <span class="bn-arrow">→</span>
+        <div class="bn-text">
+          <small>próxima</small>
+          <span>Prática 01 — LED</span>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lb">
+  <button class="lb-close" onclick="closeLb()">✕</button>
+  <img class="lb-img" id="lb-img" src="" alt="">
+</div>
+
+<script>
+function openImg(el) {
+  document.getElementById('lb-img').src = el.src;
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLb() {
+  document.getElementById('lb').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('lb').addEventListener('click', function(e) {
+  if (e.target === this) closeLb();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLb();
+});
+</script>
+</body>
+</html>
