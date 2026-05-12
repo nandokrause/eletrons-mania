@@ -194,12 +194,39 @@
     color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.4);
     padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
 
-  @media (max-width: 640px) {
-    .pnav { padding: 12px 16px; }
-    .container { padding: 0 16px; }
-    .p-hero { padding: 50px 0 40px; }
-    .bn-link { min-width: 140px; }
-  }
+      .component-layout {
+          display: grid;
+          grid-template-columns: 1fr 280px;
+          gap: 32px;
+          align-items: start;
+      }
+
+      @media (max-width: 640px) {
+          .pnav {
+              padding: 12px 16px;
+          }
+
+          .container {
+              padding: 0 16px;
+          }
+
+          .p-hero {
+              padding: 50px 0 40px;
+          }
+
+          .bn-link {
+              min-width: 140px;
+          }
+
+          .component-layout {
+              grid-template-columns: 1fr;
+              justify-items: center;
+          }
+
+              .component-layout img {
+                  width: 220px !important;
+              }
+      }
   </style>
 </head>
 <body>
@@ -237,20 +264,20 @@
     <div class="content-block">
       <p class="section-label-sm">// o que é</p>
       <h2>A placa que conecta tudo</h2>
-      <div style="display:grid;grid-template-columns:1fr 260px;gap:32px;align-items:start">
-        <div>
-          <p>A <strong>placa de ensaio</strong> (ou protoboard) é a base onde você vai montar todos os seus circuitos. Ela permite conectar componentes e fios sem usar solda — basta enfiar as peças nos furinhos.</p>
-          <p>Por dentro da placa existem trilhas metálicas que conectam os furos de cada coluna. <strong>Você não consegue ver essas ligações</strong>, pois elas ficam escondidas dentro da placa — mas elas existem e são elas que fazem tudo funcionar.</p>
-          <div class="callout tip">
-            <span class="callout-icon">🔌</span>
-            <p>Pega a placa de ensaio do kit agora. Vamos aprender a usá-la olhando pra ela.</p>
+      <div class="component-layout">
+          <div>
+              <p>A <strong>placa de ensaio</strong> (ou protoboard) é a base onde você vai montar todos os seus circuitos. Ela permite conectar componentes e fios sem usar solda — basta enfiar as peças nos furinhos.</p>
+              <p>Por dentro da placa existem trilhas metálicas que conectam os furos de cada coluna. <strong>Você não consegue ver essas ligações</strong>, pois elas ficam escondidas dentro da placa — mas elas existem e são elas que fazem tudo funcionar.</p>
+              <div class="callout tip">
+                  <span class="callout-icon">🔌</span>
+                  <p>Pega a placa de ensaio do kit agora. Vamos aprender a usá-la olhando pra ela.</p>
+              </div>
           </div>
-        </div>
-        <div>
-          <img src="htmllivro/guia36-web-resources/image/proto_foto.png"
-               alt="Placa de ensaio" onclick="openImg(this)"
-               style="width:100%;border-radius:10px;border:1px solid var(--border);cursor:zoom-in" loading="lazy">
-        </div>
+          <div>
+              <img src="htmllivro/guia36-web-resources/image/proto_foto.png"
+                   alt="Placa de ensaio" onclick="openImg(this)"
+                   style="width:100%;border-radius:10px;border:1px solid var(--border);cursor:zoom-in" loading="lazy">
+          </div>
       </div>
     </div>
 
