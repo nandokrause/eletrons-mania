@@ -201,12 +201,39 @@
     color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.4);
     padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
 
-  @media (max-width: 640px) {
-    .pnav { padding: 12px 16px; }
-    .container { padding: 0 16px; }
-    .p-hero { padding: 50px 0 40px; }
-    .bn-link { min-width: 140px; }
-  }
+      .component-layout {
+          display: grid;
+          grid-template-columns: 1fr 280px;
+          gap: 32px;
+          align-items: start;
+      }
+
+      @media (max-width: 640px) {
+          .pnav {
+              padding: 12px 16px;
+          }
+
+          .container {
+              padding: 0 16px;
+          }
+
+          .p-hero {
+              padding: 50px 0 40px;
+          }
+
+          .bn-link {
+              min-width: 140px;
+          }
+
+          .component-layout {
+              grid-template-columns: 1fr;
+              justify-items: center;
+          }
+
+              .component-layout img {
+                  width: 220px !important;
+              }
+      }
 </style>
 </head>
 <body>
@@ -239,13 +266,13 @@
     <div class="content-block">
       <p class="section-label-sm">// sobre o componente</p>
       <h2>O que é o Motor DC?</h2>
-      <div style="display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start">
-        <div>
-          <p>O motor elétrico <strong>transforma energia elétrica em energia mecânica</strong>. É o mais usado de todos os tipos de motores — combina as vantagens da energia elétrica com uma construção simples e custo reduzido.</p><p></p><p>No nosso modelo de circuito, o motor é um <strong>atuador</strong> — ele é o componente de fim do circuito que faz o que queremos na prática: girar!</p><p></p><p>O motor DC é tão simples que nem precisamos de resistor — podemos ligá-lo diretamente nas pilhas. E tem mais uma propriedade interessante: se você <strong>inverter os fios</strong>, o motor gira no sentido contrário.</p><p></p><p>Nessa prática vamos usar as <strong>três formas de energia</strong> ao mesmo tempo: química (pilhas) → elétrica (fios) → mecânica (rotação do motor).</p>
-          <div class="callout info"><span class="callout-icon">💡</span><p><strong>Três energias em uma prática:</strong> química (pilhas) → elétrica (fios) → mecânica (rotação). Isso é a base de tudo: ventiladores, geladeiras, carros elétricos — todos transformam energia assim.</p></div>
-<div class="callout tip"><span class="callout-icon">🔄</span><p>Inverta os fios do motor! O sentido de rotação muda porque a corrente elétrica invertida cria um campo magnético no sentido oposto.</p></div>
-        </div>
-        <div><img src="htmllivro/guia36-web-resources/image/figura2.png" alt="O que é o Motor DC?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
+      <div class="component-layout">
+          <div>
+              <p>O motor elétrico <strong>transforma energia elétrica em energia mecânica</strong>. É o mais usado de todos os tipos de motores — combina as vantagens da energia elétrica com uma construção simples e custo reduzido.</p><p></p><p>No nosso modelo de circuito, o motor é um <strong>atuador</strong> — ele é o componente de fim do circuito que faz o que queremos na prática: girar!</p><p></p><p>O motor DC é tão simples que nem precisamos de resistor — podemos ligá-lo diretamente nas pilhas. E tem mais uma propriedade interessante: se você <strong>inverter os fios</strong>, o motor gira no sentido contrário.</p><p></p><p>Nessa prática vamos usar as <strong>três formas de energia</strong> ao mesmo tempo: química (pilhas) → elétrica (fios) → mecânica (rotação do motor).</p>
+              <div class="callout info"><span class="callout-icon">💡</span><p><strong>Três energias em uma prática:</strong> química (pilhas) → elétrica (fios) → mecânica (rotação). Isso é a base de tudo: ventiladores, geladeiras, carros elétricos — todos transformam energia assim.</p></div>
+              <div class="callout tip"><span class="callout-icon">🔄</span><p>Inverta os fios do motor! O sentido de rotação muda porque a corrente elétrica invertida cria um campo magnético no sentido oposto.</p></div>
+          </div>
+          <div><img src="htmllivro/guia36-web-resources/image/figura2.png" alt="O que é o Motor DC?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
       </div>
     </div>
 

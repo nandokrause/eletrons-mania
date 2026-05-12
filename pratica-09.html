@@ -201,12 +201,39 @@
     color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.4);
     padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
 
-  @media (max-width: 640px) {
-    .pnav { padding: 12px 16px; }
-    .container { padding: 0 16px; }
-    .p-hero { padding: 50px 0 40px; }
-    .bn-link { min-width: 140px; }
-  }
+      .component-layout {
+          display: grid;
+          grid-template-columns: 1fr 280px;
+          gap: 32px;
+          align-items: start;
+      }
+
+      @media (max-width: 640px) {
+          .pnav {
+              padding: 12px 16px;
+          }
+
+          .container {
+              padding: 0 16px;
+          }
+
+          .p-hero {
+              padding: 50px 0 40px;
+          }
+
+          .bn-link {
+              min-width: 140px;
+          }
+
+          .component-layout {
+              grid-template-columns: 1fr;
+              justify-items: center;
+          }
+
+              .component-layout img {
+                  width: 220px !important;
+              }
+      }
 </style>
 </head>
 <body>
@@ -239,13 +266,13 @@
     <div class="content-block">
       <p class="section-label-sm">// sobre o componente</p>
       <h2>O que é o Transistor?</h2>
-      <div style="display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start">
-        <div>
-          <p>O transistor foi inventado há cerca de 65 anos nos laboratórios da Bell (sim, o mesmo Graham Bell do telefone). Esse pequeno componente <strong>mudou completamente o mundo moderno</strong> — sem ele, computadores como os conhecemos hoje não existiriam.</p><p></p><p>Funciona como uma <strong>torneira controlada por outra torneira</strong>: uma pequena energia na "entrada de controle" (base) controla uma grande energia na "saída" (coletor). Diferente do potenciômetro que você controla mecanicamente girando uma haste, o transistor é controlado <strong>eletronicamente</strong> — pela própria energia.</p><p></p><p>Tem <strong>três pernas</strong>:</p><p><br>• <strong>Base:</strong> entrada de controle (pequeno sinal)</p><p><br>• <strong>Coletor:</strong> onde entra a energia que será controlada</p><p><br>• <strong>Emissor:</strong> saída do transistor</p><p></p><p><strong>Atenção:</strong> A parte RETA do transistor deve ficar virada para dentro da placa.</p>
-          <div class="callout warn"><span class="callout-icon">⚠️</span><p>A parte RETA do transistor DEVE ficar virada para dentro da placa. Se ligado ao contrário, o circuito não funciona.</p></div>
-<div class="callout info"><span class="callout-icon">💡</span><p><strong>O que está acontecendo:</strong> Quando o botão não está pressionado, o LED de cima acende (transistor deixa passar). Ao apertar, o LED de baixo acende e o transistor "inverte" o sinal, apagando o LED de cima. Magia da eletrônica!</p></div>
-        </div>
-        <div><img src="htmllivro/guia36-web-resources/image/foto1.jpg" alt="O que é o Transistor?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
+      <div class="component-layout">
+          <div>
+              <p>O transistor foi inventado há cerca de 65 anos nos laboratórios da Bell (sim, o mesmo Graham Bell do telefone). Esse pequeno componente <strong>mudou completamente o mundo moderno</strong> — sem ele, computadores como os conhecemos hoje não existiriam.</p><p></p><p>Funciona como uma <strong>torneira controlada por outra torneira</strong>: uma pequena energia na "entrada de controle" (base) controla uma grande energia na "saída" (coletor). Diferente do potenciômetro que você controla mecanicamente girando uma haste, o transistor é controlado <strong>eletronicamente</strong> — pela própria energia.</p><p></p><p>Tem <strong>três pernas</strong>:</p><p><br>• <strong>Base:</strong> entrada de controle (pequeno sinal)</p><p><br>• <strong>Coletor:</strong> onde entra a energia que será controlada</p><p><br>• <strong>Emissor:</strong> saída do transistor</p><p></p><p><strong>Atenção:</strong> A parte RETA do transistor deve ficar virada para dentro da placa.</p>
+              <div class="callout warn"><span class="callout-icon">⚠️</span><p>A parte RETA do transistor DEVE ficar virada para dentro da placa. Se ligado ao contrário, o circuito não funciona.</p></div>
+              <div class="callout info"><span class="callout-icon">💡</span><p><strong>O que está acontecendo:</strong> Quando o botão não está pressionado, o LED de cima acende (transistor deixa passar). Ao apertar, o LED de baixo acende e o transistor "inverte" o sinal, apagando o LED de cima. Magia da eletrônica!</p></div>
+          </div>
+          <div><img src="htmllivro/guia36-web-resources/image/foto1.jpg" alt="O que é o Transistor?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
       </div>
     </div>
 

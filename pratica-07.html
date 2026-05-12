@@ -201,12 +201,39 @@
     color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.4);
     padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
 
-  @media (max-width: 640px) {
-    .pnav { padding: 12px 16px; }
-    .container { padding: 0 16px; }
-    .p-hero { padding: 50px 0 40px; }
-    .bn-link { min-width: 140px; }
-  }
+      .component-layout {
+          display: grid;
+          grid-template-columns: 1fr 280px;
+          gap: 32px;
+          align-items: start;
+      }
+
+      @media (max-width: 640px) {
+          .pnav {
+              padding: 12px 16px;
+          }
+
+          .container {
+              padding: 0 16px;
+          }
+
+          .p-hero {
+              padding: 50px 0 40px;
+          }
+
+          .bn-link {
+              min-width: 140px;
+          }
+
+          .component-layout {
+              grid-template-columns: 1fr;
+              justify-items: center;
+          }
+
+              .component-layout img {
+                  width: 220px !important;
+              }
+      }}
 </style>
 </head>
 <body>
@@ -239,13 +266,13 @@
     <div class="content-block">
       <p class="section-label-sm">// sobre o componente</p>
       <h2>O que é o Capacitor?</h2>
-      <div style="display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start">
-        <div>
-          <p>O capacitor funciona como um <strong>pequeno balde no meio do caminho do fio</strong> — é um componente que serve como <strong>reserva de energia</strong>.</p><p></p><p>Se parece com uma pilha, mas a diferença é que a energia armazenada é menor e pode ser <strong>recarregada a qualquer momento</strong>. Enquanto as pilhas armazenam energia quimicamente, o capacitor a armazena eletrostaticamente.</p><p></p><p>O capacitor tem <strong>polaridade</strong>: uma faixa branca em um dos lados indica o polo negativo (-). Esse lado DEVE ficar no fio preto das pilhas. Ligado invertido, o capacitor queima.</p><p></p><p>Curiosidade: o capacitor foi inventado acidentalmente em <strong>1746</strong> por Pieter van Musschenbroek na cidade de Leyden, Holanda. Por isso seu nome antigo é "garrafa de Leyden".</p>
-          <div class="callout warn"><span class="callout-icon">⚠️</span><p>O lado com a <strong>faixa branca</strong> do capacitor é o negativo (-) e DEVE ser ligado no fio preto. Invertido, o capacitor queima!</p></div>
-<div class="callout info"><span class="callout-icon">💡</span><p>O capacitor armazena energia suficiente para ligar o LED por apenas alguns segundos. Nos circuitos modernos, capacitores maiores são usados como fontes de energia de emergência.</p></div>
-        </div>
-        <div><img src="htmllivro/guia36-web-resources/image/capacitor_foto.jpg" alt="O que é o Capacitor?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
+      <div class="component-layout">
+          <div>
+              <p>O capacitor funciona como um <strong>pequeno balde no meio do caminho do fio</strong> — é um componente que serve como <strong>reserva de energia</strong>.</p><p></p><p>Se parece com uma pilha, mas a diferença é que a energia armazenada é menor e pode ser <strong>recarregada a qualquer momento</strong>. Enquanto as pilhas armazenam energia quimicamente, o capacitor a armazena eletrostaticamente.</p><p></p><p>O capacitor tem <strong>polaridade</strong>: uma faixa branca em um dos lados indica o polo negativo (-). Esse lado DEVE ficar no fio preto das pilhas. Ligado invertido, o capacitor queima.</p><p></p><p>Curiosidade: o capacitor foi inventado acidentalmente em <strong>1746</strong> por Pieter van Musschenbroek na cidade de Leyden, Holanda. Por isso seu nome antigo é "garrafa de Leyden".</p>
+              <div class="callout warn"><span class="callout-icon">⚠️</span><p>O lado com a <strong>faixa branca</strong> do capacitor é o negativo (-) e DEVE ser ligado no fio preto. Invertido, o capacitor queima!</p></div>
+              <div class="callout info"><span class="callout-icon">💡</span><p>O capacitor armazena energia suficiente para ligar o LED por apenas alguns segundos. Nos circuitos modernos, capacitores maiores são usados como fontes de energia de emergência.</p></div>
+          </div>
+          <div><img src="htmllivro/guia36-web-resources/image/capacitor_foto.jpg" alt="O que é o Capacitor?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
       </div>
     </div>
 

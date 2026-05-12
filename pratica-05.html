@@ -201,12 +201,39 @@
     color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.4);
     padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
 
-  @media (max-width: 640px) {
-    .pnav { padding: 12px 16px; }
-    .container { padding: 0 16px; }
-    .p-hero { padding: 50px 0 40px; }
-    .bn-link { min-width: 140px; }
-  }
+      .component-layout {
+          display: grid;
+          grid-template-columns: 1fr 280px;
+          gap: 32px;
+          align-items: start;
+      }
+
+      @media (max-width: 640px) {
+          .pnav {
+              padding: 12px 16px;
+          }
+
+          .container {
+              padding: 0 16px;
+          }
+
+          .p-hero {
+              padding: 50px 0 40px;
+          }
+
+          .bn-link {
+              min-width: 140px;
+          }
+
+          .component-layout {
+              grid-template-columns: 1fr;
+              justify-items: center;
+          }
+
+              .component-layout img {
+                  width: 220px !important;
+              }
+      }
 </style>
 </head>
 <body>
@@ -239,13 +266,13 @@
     <div class="content-block">
       <p class="section-label-sm">// sobre o componente</p>
       <h2>O que é o Potenciômetro?</h2>
-      <div style="display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start">
-        <div>
-          <p>O potenciômetro é um <strong>sensor resistivo mecânico</strong>. Funciona como um resistor que pode mudar de valor — girando a haste, você altera quanto o componente resiste à passagem de energia.</p><p></p><p>Tem <strong>três terminais</strong>: dois nas extremidades e um no meio. Se você usasse os dois extremos, teria o valor máximo de resistência sem poder variar. Por isso usamos o <strong>pino do meio + um pino extremo</strong>: girando a haste, o pino do meio se desloca, mudando a resistência.</p><p></p><p>Você já viu isso antes: os controles de volume de rádios antigos e os botões de guitarra funcionam com potenciômetro.</p><p></p><p><strong>Atenção importante:</strong> quando a haste vai ao máximo para um lado, a resistência fica zero — como se não houvesse resistor. Para não queimar o LED, adicionamos um <strong>resistor fixo pequeno</strong> em série.</p>
-          <div class="callout warn"><span class="callout-icon">⚠️</span><p><strong>Nunca remova o resistor fixo</strong> do circuito. Se o potenciômetro chegar a zero sem o resistor fixo, o LED queimará.</p></div>
-<div class="callout info"><span class="callout-icon">💡</span><p>Esse é o princípio de funcionamento dos <strong>dimmers</strong> de iluminação que controlam o brilho de lâmpadas em residências e teatros.</p></div>
-        </div>
-        <div><img src="htmllivro/guia36-web-resources/image/pot_denho.jpg" alt="O que é o Potenciômetro?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
+      <div class="component-layout">
+          <div>
+              <p>O potenciômetro é um <strong>sensor resistivo mecânico</strong>. Funciona como um resistor que pode mudar de valor — girando a haste, você altera quanto o componente resiste à passagem de energia.</p><p></p><p>Tem <strong>três terminais</strong>: dois nas extremidades e um no meio. Se você usasse os dois extremos, teria o valor máximo de resistência sem poder variar. Por isso usamos o <strong>pino do meio + um pino extremo</strong>: girando a haste, o pino do meio se desloca, mudando a resistência.</p><p></p><p>Você já viu isso antes: os controles de volume de rádios antigos e os botões de guitarra funcionam com potenciômetro.</p><p></p><p><strong>Atenção importante:</strong> quando a haste vai ao máximo para um lado, a resistência fica zero — como se não houvesse resistor. Para não queimar o LED, adicionamos um <strong>resistor fixo pequeno</strong> em série.</p>
+              <div class="callout warn"><span class="callout-icon">⚠️</span><p><strong>Nunca remova o resistor fixo</strong> do circuito. Se o potenciômetro chegar a zero sem o resistor fixo, o LED queimará.</p></div>
+              <div class="callout info"><span class="callout-icon">💡</span><p>Esse é o princípio de funcionamento dos <strong>dimmers</strong> de iluminação que controlam o brilho de lâmpadas em residências e teatros.</p></div>
+          </div>
+          <div><img src="htmllivro/guia36-web-resources/image/pot_denho.jpg" alt="O que é o Potenciômetro?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
       </div>
     </div>
 

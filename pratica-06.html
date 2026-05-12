@@ -201,12 +201,39 @@
     color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.4);
     padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
 
-  @media (max-width: 640px) {
-    .pnav { padding: 12px 16px; }
-    .container { padding: 0 16px; }
-    .p-hero { padding: 50px 0 40px; }
-    .bn-link { min-width: 140px; }
-  }
+      .component-layout {
+          display: grid;
+          grid-template-columns: 1fr 280px;
+          gap: 32px;
+          align-items: start;
+      }
+
+      @media (max-width: 640px) {
+          .pnav {
+              padding: 12px 16px;
+          }
+
+          .container {
+              padding: 0 16px;
+          }
+
+          .p-hero {
+              padding: 50px 0 40px;
+          }
+
+          .bn-link {
+              min-width: 140px;
+          }
+
+          .component-layout {
+              grid-template-columns: 1fr;
+              justify-items: center;
+          }
+
+              .component-layout img {
+                  width: 220px !important;
+              }
+      }
 </style>
 </head>
 <body>
@@ -239,13 +266,13 @@
     <div class="content-block">
       <p class="section-label-sm">// sobre o componente</p>
       <h2>O que é o LDR?</h2>
-      <div style="display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start">
-        <div>
-          <p>O LDR (Light Dependent Resistor — Resistor Dependente de Luz) é um <strong>sensor resistivo que reage à luminosidade</strong>. Funciona igual ao potenciômetro, com a diferença de que a variação de resistência não é feita girando uma haste, mas sim pela quantidade de luz recebida.</p><p></p><p>O princípio é simples:</p><p><br>• <strong>Escuridão:</strong> resistência máxima → pouca energia passa → LED apagado</p><p><br>• <strong>Luz brilhante:</strong> resistência mínima → muita energia passa → LED aceso forte</p><p></p><p>Esse é o componente que faz as <strong>luzes de rua acenderem automaticamente quando anoitece</strong>! O circuito é muito simples: basta trocar o resistor fixo pelo LDR.</p>
-          <div class="callout info"><span class="callout-icon">💡</span><p>Em ambientes com luz normal, o LED vai acender fraquinho. Em ambientes muito escuros, o LED apaga. Para testar bem, vá para um lugar escuro e use uma lanterna do celular.</p></div>
-<div class="callout tip"><span class="callout-icon">🌃</span><p>Na prática de <strong>Projetos Finais</strong>, você vai usar o LDR com 2 transistores para fazer uma luz noturna automática de verdade!</p></div>
-        </div>
-        <div><img src="htmllivro/guia36-web-resources/image/photo_imagem.png" alt="O que é o LDR?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
+      <div class="component-layout">
+          <div>
+              <p>O LDR (Light Dependent Resistor — Resistor Dependente de Luz) é um <strong>sensor resistivo que reage à luminosidade</strong>. Funciona igual ao potenciômetro, com a diferença de que a variação de resistência não é feita girando uma haste, mas sim pela quantidade de luz recebida.</p><p></p><p>O princípio é simples:</p><p><br>• <strong>Escuridão:</strong> resistência máxima → pouca energia passa → LED apagado</p><p><br>• <strong>Luz brilhante:</strong> resistência mínima → muita energia passa → LED aceso forte</p><p></p><p>Esse é o componente que faz as <strong>luzes de rua acenderem automaticamente quando anoitece</strong>! O circuito é muito simples: basta trocar o resistor fixo pelo LDR.</p>
+              <div class="callout info"><span class="callout-icon">💡</span><p>Em ambientes com luz normal, o LED vai acender fraquinho. Em ambientes muito escuros, o LED apaga. Para testar bem, vá para um lugar escuro e use uma lanterna do celular.</p></div>
+              <div class="callout tip"><span class="callout-icon">🌃</span><p>Na prática de <strong>Projetos Finais</strong>, você vai usar o LDR com 2 transistores para fazer uma luz noturna automática de verdade!</p></div>
+          </div>
+          <div><img src="htmllivro/guia36-web-resources/image/photo_imagem.png" alt="O que é o LDR?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
       </div>
     </div>
 

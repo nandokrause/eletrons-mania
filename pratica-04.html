@@ -201,12 +201,39 @@
     color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.4);
     padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
 
-  @media (max-width: 640px) {
-    .pnav { padding: 12px 16px; }
-    .container { padding: 0 16px; }
-    .p-hero { padding: 50px 0 40px; }
-    .bn-link { min-width: 140px; }
-  }
+      .component-layout {
+          display: grid;
+          grid-template-columns: 1fr 280px;
+          gap: 32px;
+          align-items: start;
+      }
+
+      @media (max-width: 640px) {
+          .pnav {
+              padding: 12px 16px;
+          }
+
+          .container {
+              padding: 0 16px;
+          }
+
+          .p-hero {
+              padding: 50px 0 40px;
+          }
+
+          .bn-link {
+              min-width: 140px;
+          }
+
+          .component-layout {
+              grid-template-columns: 1fr;
+              justify-items: center;
+          }
+
+              .component-layout img {
+                  width: 220px !important;
+              }
+      }
 </style>
 </head>
 <body>
@@ -239,13 +266,13 @@
     <div class="content-block">
       <p class="section-label-sm">// sobre o componente</p>
       <h2>O que é o Buzzer?</h2>
-      <div style="display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start">
-        <div>
-          <p>O buzzer é um <strong>atuador</strong> — assim como o LED, é um componente de fim de circuito. A diferença é que, ao invés de emitir luz, o buzzer emite som quando energizado. Funciona como uma sirene ou campainha elétrica.</p><p></p><p>Uma característica especial: o buzzer é tão simples que funciona <strong>sem resistor</strong>! A energia das pilhas não é capaz de danificá-lo, então podemos ligá-lo diretamente na fonte.</p><p></p><p>Atenção ao <strong>sinal de + (positivo)</strong> marcado no componente — esse pino DEVE ser ligado no fio vermelho das pilhas. Ligado invertido, pode estragar o componente.</p>
-          <div class="callout warn"><span class="callout-icon">⚠️</span><p>O pino do buzzer com o sinal <strong>+</strong> DEVE ser ligado no fio vermelho (positivo) das pilhas. Invertido, o componente pode se danificar.</p></div>
-<div class="callout tip"><span class="callout-icon">🎵</span><p>Desafio: já que você aprendeu o botão, tente adicionar um botão entre as pilhas e o buzzer para fazer uma campainha que só toca quando pressionada!</p></div>
-        </div>
-        <div><img src="htmllivro/guia36-web-resources/image/buzzer_foto.jpg" alt="O que é o Buzzer?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
+      <div class="component-layout">
+          <div>
+              <p>O buzzer é um <strong>atuador</strong> — assim como o LED, é um componente de fim de circuito. A diferença é que, ao invés de emitir luz, o buzzer emite som quando energizado. Funciona como uma sirene ou campainha elétrica.</p><p></p><p>Uma característica especial: o buzzer é tão simples que funciona <strong>sem resistor</strong>! A energia das pilhas não é capaz de danificá-lo, então podemos ligá-lo diretamente na fonte.</p><p></p><p>Atenção ao <strong>sinal de + (positivo)</strong> marcado no componente — esse pino DEVE ser ligado no fio vermelho das pilhas. Ligado invertido, pode estragar o componente.</p>
+              <div class="callout warn"><span class="callout-icon">⚠️</span><p>O pino do buzzer com o sinal <strong>+</strong> DEVE ser ligado no fio vermelho (positivo) das pilhas. Invertido, o componente pode se danificar.</p></div>
+              <div class="callout tip"><span class="callout-icon">🎵</span><p>Desafio: já que você aprendeu o botão, tente adicionar um botão entre as pilhas e o buzzer para fazer uma campainha que só toca quando pressionada!</p></div>
+          </div>
+          <div><img src="htmllivro/guia36-web-resources/image/buzzer_foto.jpg" alt="O que é o Buzzer?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
       </div>
     </div>
 

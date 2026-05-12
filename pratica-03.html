@@ -201,12 +201,39 @@
     color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.4);
     padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
 
-  @media (max-width: 640px) {
-    .pnav { padding: 12px 16px; }
-    .container { padding: 0 16px; }
-    .p-hero { padding: 50px 0 40px; }
-    .bn-link { min-width: 140px; }
-  }
+      .component-layout {
+          display: grid;
+          grid-template-columns: 1fr 280px;
+          gap: 32px;
+          align-items: start;
+      }
+
+      @media (max-width: 640px) {
+          .pnav {
+              padding: 12px 16px;
+          }
+
+          .container {
+              padding: 0 16px;
+          }
+
+          .p-hero {
+              padding: 50px 0 40px;
+          }
+
+          .bn-link {
+              min-width: 140px;
+          }
+
+          .component-layout {
+              grid-template-columns: 1fr;
+              justify-items: center;
+          }
+
+              .component-layout img {
+                  width: 220px !important;
+              }
+      }
 </style>
 </head>
 <body>
@@ -239,13 +266,13 @@
     <div class="content-block">
       <p class="section-label-sm">// sobre o componente</p>
       <h2>O que é o Botão?</h2>
-      <div style="display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start">
-        <div>
-          <p>O botão de pressão (ou táctil) é um componente com a função de <strong>fechar ou abrir um circuito elétrico</strong>. Simples assim.</p><p></p><p>Com o botão, não precisamos ficar tirando e recolocando componentes na placa para ligar e desligar o circuito. Basta colocar o botão no meio do circuito: enquanto não pressionamos, o circuito fica <strong>aberto</strong> (desligado). Quando pressionamos e mantemos, o circuito <strong>fecha</strong> e a energia flui.</p><p></p><p>O botão do kit tem <strong>quatro pernas</strong>. Nessa prática usamos apenas as duas de cima (entrada e saída do circuito). As duas de baixo ficam soltas — e isso é intencional!</p>
-          <div class="callout warn"><span class="callout-icon">⚠️</span><p>O botão deve ser inserido <strong>atravessando o canal central</strong> da placa para que as pernas de cima e de baixo fiquem separadas.</p></div>
-<div class="callout info"><span class="callout-icon">💡</span><p><strong>Lógica de um circuito:</strong> Fonte (pilhas) → Resistor → Sensor (botão) → Atuador (LED). Quase todos os circuitos do kit seguem essa lógica!</p></div>
-        </div>
-        <div><img src="htmllivro/guia36-web-resources/image/potao_desenho.png" alt="O que é o Botão?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
+      <div class="component-layout">
+          <div>
+              <p>O botão de pressão (ou táctil) é um componente com a função de <strong>fechar ou abrir um circuito elétrico</strong>. Simples assim.</p><p></p><p>Com o botão, não precisamos ficar tirando e recolocando componentes na placa para ligar e desligar o circuito. Basta colocar o botão no meio do circuito: enquanto não pressionamos, o circuito fica <strong>aberto</strong> (desligado). Quando pressionamos e mantemos, o circuito <strong>fecha</strong> e a energia flui.</p><p></p><p>O botão do kit tem <strong>quatro pernas</strong>. Nessa prática usamos apenas as duas de cima (entrada e saída do circuito). As duas de baixo ficam soltas — e isso é intencional!</p>
+              <div class="callout warn"><span class="callout-icon">⚠️</span><p>O botão deve ser inserido <strong>atravessando o canal central</strong> da placa para que as pernas de cima e de baixo fiquem separadas.</p></div>
+              <div class="callout info"><span class="callout-icon">💡</span><p><strong>Lógica de um circuito:</strong> Fonte (pilhas) → Resistor → Sensor (botão) → Atuador (LED). Quase todos os circuitos do kit seguem essa lógica!</p></div>
+          </div>
+          <div><img src="htmllivro/guia36-web-resources/image/potao_desenho.png" alt="O que é o Botão?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
       </div>
     </div>
 

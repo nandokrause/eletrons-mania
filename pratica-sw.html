@@ -201,12 +201,40 @@
     color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.4);
     padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
 
-  @media (max-width: 640px) {
-    .pnav { padding: 12px 16px; }
-    .container { padding: 0 16px; }
-    .p-hero { padding: 50px 0 40px; }
-    .bn-link { min-width: 140px; }
-  }
+      .component-layout {
+          display: grid;
+          grid-template-columns: 1fr 280px;
+          gap: 32px;
+          align-items: start;
+      }
+
+
+      @media (max-width: 640px) {
+          .pnav {
+              padding: 12px 16px;
+          }
+
+          .container {
+              padding: 0 16px;
+          }
+
+          .p-hero {
+              padding: 50px 0 40px;
+          }
+
+          .bn-link {
+              min-width: 140px;
+          }
+
+          .component-layout {
+              grid-template-columns: 1fr;
+              justify-items: center;
+          }
+
+              .component-layout img {
+                  width: 220px !important;
+              }
+      }
 </style>
 </head>
 <body>
@@ -239,12 +267,12 @@
     <div class="content-block">
       <p class="section-label-sm">// sobre o componente</p>
       <h2>O que é o Interruptor?</h2>
-      <div style="display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start">
-        <div>
-          <p>O interruptor (DIP switch) é como o interruptor de luz do seu quarto — só que miniaturizado para caber na placa de ensaios. O funcionamento é idêntico.</p><p></p><p>A diferença do <strong>interruptor para o botão</strong>: com o botão, você precisa ficar pressionando o tempo todo para o circuito funcionar. Com o interruptor, você <strong>aciona uma vez e ele fica naquela posição</strong> — o circuito fica ligado (ou desligado) sem precisar segurar nada.</p><p></p><p>O interruptor do kit tem <strong>duas chaves</strong> (numeradas 1 e 2). Nessa prática usamos apenas a chave <strong>nº 1</strong> — os dois pinos da esquerda.</p>
-          <div class="callout info"><span class="callout-icon">💡</span><p>O interruptor pode ser adicionado no meio de <strong>qualquer circuito</strong> para fazer a função de liga/desliga. É o equivalente eletrônico do interruptor de luz da sua casa.</p></div>
-        </div>
-        <div><img src="htmllivro/guia36-web-resources/image/interruptor_circuito_real.png" alt="O que é o Interruptor?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
+      <div class="component-layout">
+          <div>
+              <p>O interruptor (DIP switch) é como o interruptor de luz do seu quarto — só que miniaturizado para caber na placa de ensaios. O funcionamento é idêntico.</p><p></p><p>A diferença do <strong>interruptor para o botão</strong>: com o botão, você precisa ficar pressionando o tempo todo para o circuito funcionar. Com o interruptor, você <strong>aciona uma vez e ele fica naquela posição</strong> — o circuito fica ligado (ou desligado) sem precisar segurar nada.</p><p></p><p>O interruptor do kit tem <strong>duas chaves</strong> (numeradas 1 e 2). Nessa prática usamos apenas a chave <strong>nº 1</strong> — os dois pinos da esquerda.</p>
+              <div class="callout info"><span class="callout-icon">💡</span><p>O interruptor pode ser adicionado no meio de <strong>qualquer circuito</strong> para fazer a função de liga/desliga. É o equivalente eletrônico do interruptor de luz da sua casa.</p></div>
+          </div>
+          <div><img src="htmllivro/guia36-web-resources/image/interruptor_circuito_real.png" alt="O que é o Interruptor?" style="width:100%;border-radius:10px;border:1px solid var(--border)" loading="lazy"></div>
       </div>
     </div>
 

@@ -201,12 +201,40 @@
     color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.4);
     padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
 
-  @media (max-width: 640px) {
-    .pnav { padding: 12px 16px; }
-    .container { padding: 0 16px; }
-    .p-hero { padding: 50px 0 40px; }
-    .bn-link { min-width: 140px; }
+  .component-layout {
+          display: grid;
+          grid-template-columns: 1fr 280px;
+          gap: 32px;
+          align-items: start;
   }
+
+
+      @media (max-width: 640px) {
+          .pnav {
+              padding: 12px 16px;
+          }
+
+          .container {
+              padding: 0 16px;
+          }
+
+          .p-hero {
+              padding: 50px 0 40px;
+          }
+
+          .bn-link {
+              min-width: 140px;
+          }
+
+          .component-layout {
+              grid-template-columns: 1fr;
+              justify-items: center;
+          }
+
+              .component-layout img {
+                  width: 220px !important;
+              }
+      }
 </style>
 </head>
 <body>
@@ -239,7 +267,7 @@
     <div class="content-block">
       <p class="section-label-sm">// sobre o componente</p>
       <h2>O que é o LED?</h2>
-      <div style="display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start">
+      <div class="component-layout">
         <div>
           <p>O LED (Diodo Emissor de Luz) é um componente que, quando energizado, emite luz visível — como uma lâmpada eletrônica moderninha. Existem LEDs de várias cores; nessa prática usaremos o verde.</p><p></p><p>O LED tem <strong>polaridade</strong>: a energia só funciona passando por um dos lados. A perna <strong>mais longa</strong> vai no positivo (+). Se ligar invertido, ele queima e não funciona mais.</p><p></p><p>Essa prática usa também o <strong>resistor</strong> — um componente que dificulta a passagem de eletricidade para proteger o LED. Sem o resistor, a energia das pilhas seria grande demais e queimaria o LED na hora.</p>
           <div class="callout warn"><span class="callout-icon">⚠️</span><p><strong>ATENÇÃO:</strong> A perna maior do LED DEVE ser ligada no resistor. Nunca ligue o LED diretamente na pilha — ele vai queimar instantaneamente.</p></div>
